@@ -1,7 +1,6 @@
 package org.study.factories;
 
 import org.study.DAO.impl.HallDAOImpl;
-import org.study.DAO.impl.UserDAOImpl;
 
 public class HallDAOFactory implements DAOFactories {
 

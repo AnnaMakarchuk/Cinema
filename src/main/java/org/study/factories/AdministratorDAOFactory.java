@@ -1,7 +1,6 @@
 package org.study.factories;
 
 import org.study.DAO.impl.AdministratorDAOImpl;
-import org.study.DAO.impl.UserDAOImpl;
 
 public class AdministratorDAOFactory implements DAOFactories {
 

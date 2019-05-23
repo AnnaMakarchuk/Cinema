@@ -1,7 +1,6 @@
 package org.study.factories;
 
 import org.study.DAO.impl.MovieDAOImpl;
-import org.study.DAO.impl.UserDAOImpl;
 
 public class MovieDAOFactory implements DAOFactories {
 

@@ -1,7 +1,6 @@
 package org.study.factories;
 
 import org.study.DAO.impl.TicketDAOImpl;
-import org.study.DAO.impl.UserDAOImpl;
 
 public class TicketDAOFactory implements DAOFactories {
 
