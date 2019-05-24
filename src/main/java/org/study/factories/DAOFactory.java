@@ -1,38 +1,75 @@
 package org.study.factories;
 
+import org.study.DAO.*;
+import org.study.DAO.impl.*;
+
 public class DAOFactory {
 
-    private static final AdministratorDAOFactory administratorDAO = AdministratorDAOFactory.getInstance();
-    private static final UserDAOFactory userDAO = UserDAOFactory.getInstance();
-    private static final UserRoleDAOFactory userRoleDAO = UserRoleDAOFactory.getInstance();
-    private static final SessionScheduleDAOFactory sessionScheduleDAO = SessionScheduleDAOFactory.getInstance();
-    private static final HallDAOFactory hallDAO = HallDAOFactory.getInstance();
-    private static final MovieDAOFactory movieDAO = MovieDAOFactory.getInstance();
-    private static final MovieGenreDAOFactory movieGenreDAO = MovieGenreDAOFactory.getInstance();
-    private static final TicketDAOFactory ticketDAO = TicketDAOFactory.getInstance();
-    private static final PriceDAOFactory priceDAO = PriceDAOFactory.getInstance();
+    private static final DAOFactory daoFactoryInstance = new DAOFactory();
 
-    public static DAOFactories createDAO(DAOType typeDAO) {
-        switch (typeDAO) {
-            case ADMINISTRATOR:
-                return administratorDAO;
-            case USER:
-                return userDAO;
-            case USERROLE:
-                return userRoleDAO;
-            case SCHEDULE:
-                return sessionScheduleDAO;
-            case HALL:
-                return hallDAO;
-            case MOVIE:
-                return movieDAO;
-            case MOVIEGENRE:
-                return movieGenreDAO;
-            case TICKET:
-                return ticketDAO;
-            case PRICE:
-                return priceDAO;
-        }
-        throw new IllegalArgumentException();
+    private AdministratorDAO administratorDAO;
+    private UserDAO userDAO;
+    private UserRoleDAO userRoleDAO;
+    private SessionScheduleDAO sessionScheduleDAO;
+    private HallDAO hallDAO;
+    private MovieDAO movieDAO;
+    private MovieGenreDAO movieGenreDAO;
+    private TicketDAO ticketDAO;
+    private PriceDAO priceDAO;
+
+    public DAOFactory() {
+        administratorDAO = new AdministratorDAOImpl();
+        userDAO = new UserDAOImpl();
+        userRoleDAO = new UserRoleDAOImpl();
+        sessionScheduleDAO = new SessionScheduleDAOImpl();
+        hallDAO = new HallDAOImpl();
+        movieDAO = new MovieDAOImpl();
+        movieGenreDAO = new MovieGenreDAOImpl();
+        ticketDAO = new TicketDAOImpl();
+        priceDAO = new PriceDAOImpl();
+    }
+
+    public static DAOFactory getInstance() {
+        return daoFactoryInstance;
+    }
+
+    public static DAOFactory getDaoFactoryInstance() {
+        return daoFactoryInstance;
+    }
+
+    public AdministratorDAO getAdministratorDAO() {
+        return administratorDAO;
+    }
+
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public UserRoleDAO getUserRoleDAO() {
+        return userRoleDAO;
+    }
+
+    public SessionScheduleDAO getSessionScheduleDAO() {
+        return sessionScheduleDAO;
+    }
+
+    public HallDAO getHallDAO() {
+        return hallDAO;
+    }
+
+    public MovieDAO getMovieDAO() {
+        return movieDAO;
+    }
+
+    public MovieGenreDAO getMovieGenreDAO() {
+        return movieGenreDAO;
+    }
+
+    public TicketDAO getTicketDAO() {
+        return ticketDAO;
+    }
+
+    public PriceDAO getPriceDAO() {
+        return priceDAO;
     }
 }
