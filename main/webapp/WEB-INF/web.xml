@@ -15,27 +15,27 @@
         <!--<res-auth>Container</res-auth>-->
     <!--</resource-ref>-->
 
-    <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>org.study.servlet.HelloServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>HelloServlet</servlet-name>-->
+        <!--<servlet-class>org.study.servlet.HelloServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>HelloServlet</servlet-name>-->
+        <!--<url-pattern>/hello</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <filter>
-        <filter-name>EncodingFilter</filter-name>
-        <filter-class>org.study.filters.EncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding_type</param-name>
-            <param-value>UTF8</param-value>
-        </init-param>
-    </filter>
+    <!--<filter>-->
+        <!--<filter-name>EncodingFilter</filter-name>-->
+        <!--<filter-class>org.study.filters.EncodingFilter</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>encoding_type</param-name>-->
+            <!--<param-value>UTF8</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
 
-    <filter-mapping>
-        <filter-name>EncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter-mapping>-->
+        <!--<filter-name>EncodingFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 </web-app>
