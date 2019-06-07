@@ -6,9 +6,5 @@ public interface AdministratorService {
 
     Administrator viewAdmin(int adminId);
 
-    void registerNewAdmin(Administrator administrator);
-
-    void updateAdminInformation(Administrator administrator);
-
-    void deleteAdmin(Administrator administrator);
+    Administrator getUpdateAdministrator(int adminId, String adminLogin, String adminPassword);
 }

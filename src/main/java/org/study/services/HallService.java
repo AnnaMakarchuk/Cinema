@@ -4,10 +4,5 @@ import org.study.models.Hall;
 
 public interface HallService {
 
-    Hall viewHallFromDataBase(int hallId);
-
-    void addNewHall(Hall hall);
-
-    void setNewHallFeature(Hall hall);
-
+    Hall getHallWithPriceAndPlaces(int scheduleId);
 }

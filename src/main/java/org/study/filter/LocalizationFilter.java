@@ -1,8 +1,13 @@
 package org.study.filter;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 
-import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -10,29 +15,40 @@ public class LocalizationFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(LocalizationFilter.class);
 
     private static final String LOCALE = "locale";
-    private static final String BUNDLE = "bundle";
-    private String defaultBundle;
-    private String locale;
+    private String defaultLocale;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        locale = filterConfig.getInitParameter(LOCALE);
-        defaultBundle = filterConfig.getInitParameter(BUNDLE);
+        defaultLocale = filterConfig.getInitParameter(LOCALE);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String localeParameter = httpRequest.getParameter(LOCALE);
+        String localeParameter = request.getParameter(LOCALE);
         LOG.info("Locale Parameter is " + localeParameter);
-        if (localeParameter != null && !localeParameter.isEmpty()) {
+        if (isNotBlank(localeParameter)) {
             httpRequest.getSession().setAttribute(LOCALE, localeParameter);
-        } else httpRequest.getSession().setAttribute(LOCALE, locale);
-        filterChain.doFilter(request, response);
+        } else {
+            String sessionLocale = (String) httpRequest.getSession().getAttribute(LOCALE);
+            if (isBlank(sessionLocale)) {
+                httpRequest.getSession().setAttribute(LOCALE, defaultLocale);
+            }
+        }
+        httpRequest.getSession().getAttribute(LOCALE);
+        filterChain.doFilter(httpRequest, response);
     }
 
     @Override
     public void destroy() {
-        System.out.println("Destroying of LocalizationFilter");
+        LOG.info("Destroying of LocalizationFilter");
+    }
+
+    private boolean isBlank(String locale) {
+        return locale == null || locale.isEmpty();
+    }
+
+    private boolean isNotBlank(String locale) {
+        return !isBlank(locale);
     }
 }

@@ -6,14 +6,8 @@ import java.util.List;
 
 public interface MovieService {
 
-    Movie viewMovie(int movieId);
+    List<Movie> viewAllAvailableMovies(boolean isActive);
 
-    List<Movie> viewAllAvailableMovie();
-
-    void addNewMovie(Movie movie);
-
-    void updateMovieFeature(Movie movie);
-
-    void deleteMovie(Movie movie);
-
+    void addNewMovie(String movieName, String movieGenre, int movieDuration, int ageLimit,
+                     String movieDescription);
 }

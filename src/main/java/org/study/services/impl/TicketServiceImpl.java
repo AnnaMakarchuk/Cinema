@@ -1,103 +1,78 @@
 package org.study.services.impl;
 
 import org.apache.log4j.Logger;
-import org.study.DAO.TicketDAO;
-import org.study.factories.DAOFactory;
-import org.study.factories.DAOType;
+import org.study.dao.TicketDao;
+import org.study.factories.DaoFactory;
 import org.study.models.Ticket;
 import org.study.services.TicketService;
 
 import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
-    /**
-     * create instance of DAO class with type TICKET
-     */
-    private static final TicketDAO INSTANCE = (TicketDAO) DAOFactory.createDAO(DAOType.TICKET).create();
     private static final Logger LOG = Logger.getLogger(TicketServiceImpl.class);
+
+    private TicketDao ticketDao;
+
+    public TicketServiceImpl() {
+        this.ticketDao = DaoFactory.getInstance().getTicketDao();
+    }
 
     /**
      * this method show all tickets bought ny concrete user.
-     *
-     * @param userId
-     * @return ticketList
      */
     @Override
     public List<Ticket> viewAllTicketsByUser(int userId) {
-        List<Ticket> ticketList = INSTANCE.get(userId);
+        List<Ticket> ticketList = ticketDao.get(userId);
         LOG.info("TicketService view all tickets bought by user " + userId);
         return ticketList;
     }
 
     /**
      * this method create ticket after registered user bought it
-     *
-     * @param userId
-     * @param ticket
      */
     @Override
-    public void createTicketByUser(int userId, Ticket ticket) {
-        INSTANCE.create(userId, ticket);
-        LOG.info("TicketService create new ticket bought by user " + userId);
-    }
-
-    /**
-     * this method update data in selected ticket
-     *
-     * @param ticket
-     */
-    @Override
-    public void updateTicketByUser(Ticket ticket) {
-        INSTANCE.update(ticket);
-        LOG.info("TicketService update ticket bought by ticket id");
+    public void createTicketByUser(int userId, int sessionId, List<Ticket> ticketList) {
+        for (Ticket ticket : ticketList) {
+            ticketDao.create(userId, sessionId, ticket);
+        }
+        LOG.info("TicketService create new tickets bought by user " + userId);
     }
 
     /**
      * this method delete selected ticket
-     *
-     * @param ticket
      */
     @Override
-    public void deleteTicketByUser(Ticket ticket) {
-        INSTANCE.delete(ticket);
-        LOG.info("TicketService delete ticket bought by ticket id");
+    public void deleteTicketByUser(int ticketId) {
+        ticketDao.delete(ticketId);
+        LOG.info("TicketService delete select ticket");
     }
 
     /**
-     * this method allows admin to see total quantity of bought tickets for concrete session in schedule
-     *
-     * @param sessionId
-     * @return
+     * this method allows admin to see total quantity of bought tickets
      */
     @Override
-    public int countOccupiedPlacesBySessionSchedule(int sessionId) {
-        int occupiedPlaces = INSTANCE.countOccupiedPlaces(sessionId);
-        LOG.info("TicketService count occupied places on session " + sessionId);
+    public int countOccupiedPlaces() {
+        int occupiedPlaces = ticketDao.countOccupiedPlaces();
+        LOG.info("TicketService count occupied places on session");
         return occupiedPlaces;
     }
 
     /**
-     * this method allows admin to see occupied places for concrete session in schedule
-     *
-     * @param sessionId
-     * @return
+     * this method allows admin to delete all bought tickets for concrete session in schedule.
+     * this method call in case deleting or updating schedule dy admin.
      */
     @Override
-    public List<Ticket> viewAllTicketsBySessionSchedule(int sessionId) {
-        List<Ticket> ticketList = INSTANCE.getBySession(sessionId);
-        LOG.info("TicketService view all occupied places on session " + sessionId);
-        return ticketList;
+    public void deleteTicketByAdmin(List<Integer> scheduleIdList) {
+        scheduleIdList.forEach(ticketDao::deleteBySchedule);
     }
 
     /**
-     * this method allowa admin to delete all bought tickets for concrete session in schedule.
-     * this method call in case deleting or updating schedule dy admin.
-     *
-     * @param sessionId
+     * this method show all purchased tickets in cinema with pagination
      */
     @Override
-    public void deleteTicketByAdmin(int sessionId) {
-        INSTANCE.deleteBySession(sessionId);
-        LOG.info("TicketService delete all tickets on session " + sessionId);
+    public List<Ticket> viewAllTicketsByPages(int pageNumber, int rowsOnPage) {
+        List<Ticket> ticketList = ticketDao.getAllTicketsByPages(pageNumber, rowsOnPage);
+        LOG.info("TicketService view all available tickets");
+        return ticketList;
     }
 }

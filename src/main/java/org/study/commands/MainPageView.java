@@ -1,7 +1,7 @@
 package org.study.commands;
 
 import org.apache.log4j.Logger;
-import org.study.dto.MovieDTO;
+import org.study.dto.MovieDto;
 import org.study.facade.MovieFacade;
 import org.study.factories.FacadeFactory;
 
@@ -11,22 +11,20 @@ import java.util.List;
 public class MainPageView implements Command {
     private static final Logger LOG = Logger.getLogger(MainPageView.class);
 
-    private MovieFacade movieFacade = FacadeFactory.getInstance().getMovieFacade();
+    private MovieFacade movieFacade;
+
+    public MainPageView() {
+        this.movieFacade = FacadeFactory.getInstance().getMovieFacade();
+    }
 
     /**
-     * this method create Movie dto list for main page
-     *
-     * @param request
-     * @return String
+     * this method is a command for view on pain page the Movie dto list
      */
     @Override
     public String execute(HttpServletRequest request) {
-        List<MovieDTO> movieDTOList = movieFacade.getAllMovies();
-        LOG.info("List MovieDTO for main page was created");
-        LOG.info("movie= " + movieDTOList.get(0).toString());
-        request.setAttribute("movies", movieDTOList);
-        LOG.info("Attribute was setted");
-
-        return "jsp/homepage.jsp";
+        List<MovieDto> movieDtoList = movieFacade.getAllMovies(true);
+        LOG.info("List MovieDTO for main page was obtained");
+        request.setAttribute("movies", movieDtoList);
+        return "pages/homepage.jsp";
     }
 }

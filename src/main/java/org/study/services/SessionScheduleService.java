@@ -1,15 +1,17 @@
 package org.study.services;
 
+import java.util.List;
 import org.study.models.SessionSchedule;
 
 public interface SessionScheduleService {
 
-    SessionSchedule viewSessionById(int sessionId);
+    List<SessionSchedule> updateScheduleCancelMovie(int movieId);
 
-    void createSession(SessionSchedule sessionSchedule);
+    List<SessionSchedule> viewAllScheduleByWeekDay(String weekday);
 
-    void updateSession(SessionSchedule sessionSchedule);
+    List<SessionSchedule> createNonActiveSchedule(boolean isActive);
 
-    void deleteSession(SessionSchedule sessionSchedule);
+    boolean updateSession(int scheduleId, int movieId, boolean isActive);
 
+    SessionSchedule getByScheduleId(int scheduleId);
 }
