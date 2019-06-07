@@ -28,16 +28,17 @@
 </div>
 
 <div class="w3-container w3-left-align">
+    <div class="w3-container w3-center w3-text-teal">
+        <h1><b><fmt:message key="update.successful"/></b></h1>
+    </div>
+
     <p> <div class="w3-bar w3-padding-large w3-padding-24">
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left-align" onclick="location.href='/schedule'">
-            <fmt:message key="schedule"/>
+            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left-align" onclick="location.href='/cinema/admincabinet'">
+                <fmt:message key="adminPage"/>
             </button>
         </div>
     </p>
 </div>
 
-<div class="w3-container w3-center w3-text-teal">
-    <h1><b>Welcome! This is client page</b></h1>
-</div>
 </body>
 </html>
