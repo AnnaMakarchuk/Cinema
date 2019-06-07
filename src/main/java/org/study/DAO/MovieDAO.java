@@ -1,19 +1,16 @@
-package org.study.DAO;
+package org.study.dao;
 
 import org.study.models.Movie;
 
 import java.util.List;
 
-public interface MovieDAO {
+public interface MovieDao {
 
-    Movie get(int movieId);
+    Movie getMovieById(int movieId);
 
-    void create(Movie movie);
+    List<Movie> getAll(boolean isActive);
 
-    void update(Movie movie);
+    void create(int movieGenreId, Movie movie);
 
-    void delete(Movie movie);
-
-    List<Movie> getAll();
-
+    void updateMovieStatus(int movieId, boolean isActive);
 }

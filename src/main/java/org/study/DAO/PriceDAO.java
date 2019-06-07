@@ -1,13 +1,6 @@
-package org.study.DAO;
+package org.study.dao;
 
-public interface PriceDAO {
+public interface PriceDao {
 
     double get(int rowNumber, int hallId);
-
-    void create(int rowNumber, double price, int hallId);
-
-    void update(int rowNumber, double price, int hallId);
-
-    void delete(int rowNumber, int hallId);
-
 }
