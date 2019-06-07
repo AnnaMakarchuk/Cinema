@@ -1,6 +1,14 @@
-package org.study.dao;
+package org.study.DAO;
 
-public interface MovieGenreDao {
+import org.study.models.enums.MovieGenre;
 
-    int get(String genre);
+public interface MovieGenreDAO {
+
+    MovieGenre get(String genre);
+
+    void create(MovieGenre movieGenre);
+
+    void update(MovieGenre movieGenre);
+
+    void delete(MovieGenre movieGenre);
 }

@@ -1,7 +1,15 @@
-package org.study.dao;
+package org.study.DAO;
 
-public interface UserRoleDao {
+import org.study.models.enums.UserRole;
 
-    int getId(String roleName);
+public interface UserRoleDAO {
+
+    UserRole get(String roleName);
+
+    void create(UserRole userRole);
+
+    void update(int id, UserRole userRole);
+
+    void delete(UserRole userRole);
 }
 

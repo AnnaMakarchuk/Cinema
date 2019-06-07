@@ -2,24 +2,33 @@ package org.study.dto;
 
 import org.study.models.enums.MovieGenre;
 
-public class MovieDto {
+public class MovieDTO {
 
-    private int movieId;
+    private int id;
     private String movieName;
     private MovieGenre movieGenre;
     private int movieDuration;
     private int ageLimit;
     private String movieDescription;
 
-    public MovieDto() {
+    public MovieDTO(int id, String movieName, MovieGenre movieGenre, int movieDuration, int ageLimit, String movieDescription) {
+        this.id = id;
+        this.movieName = movieName;
+        this.movieGenre = movieGenre;
+        this.movieDuration = movieDuration;
+        this.ageLimit = ageLimit;
+        this.movieDescription = movieDescription;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public MovieDTO() {
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMovieName() {
@@ -63,35 +72,9 @@ public class MovieDto {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MovieDto)) return false;
-
-        MovieDto movieDto = (MovieDto) o;
-
-        if (movieId != movieDto.movieId) return false;
-        if (movieDuration != movieDto.movieDuration) return false;
-        if (ageLimit != movieDto.ageLimit) return false;
-        if (movieName != null ? !movieName.equals(movieDto.movieName) : movieDto.movieName != null) return false;
-        if (movieGenre != movieDto.movieGenre) return false;
-        return movieDescription != null ? movieDescription.equals(movieDto.movieDescription) : movieDto.movieDescription == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = movieId;
-        result = 31 * result + (movieName != null ? movieName.hashCode() : 0);
-        result = 31 * result + (movieGenre != null ? movieGenre.hashCode() : 0);
-        result = 31 * result + movieDuration;
-        result = 31 * result + ageLimit;
-        result = 31 * result + (movieDescription != null ? movieDescription.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "MovieDTO{" +
-                "movieId=" + movieId +
+                "id=" + id +
                 ", movieName='" + movieName + '\'' +
                 ", movieGenre=" + movieGenre +
                 ", movieDuration=" + movieDuration +

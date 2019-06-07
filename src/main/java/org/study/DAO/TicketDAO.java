@@ -1,24 +1,22 @@
-package org.study.dao;
+package org.study.DAO;
 
 import org.study.models.Ticket;
 
 import java.util.List;
 
-public interface TicketDao {
+public interface TicketDAO {
 
     List<Ticket> get(int userId);
 
-    void create(int userId, int scheduleId, Ticket ticket);
+    void create(int userId, Ticket ticket);
 
-    void delete(int ticketId);
+    void update(Ticket ticket);
 
-    int countOccupiedPlaces();
+    void delete(Ticket ticket);
 
-    List<Ticket> getTicketsBySchedule(int scheduleId);
+    int countOccupiedPlaces(int sessionId);
 
-    void deleteBySchedule(int scheduleId);
+    List<Ticket> getBySession(int sessionId);
 
-    List<Ticket> getAllTicketsByPages(int pageQuantities, int rowsOnPage);
-
-    int getUserIdByScheduleId(int scheduleId);
+    void deleteBySession(int sessionId);
 }
