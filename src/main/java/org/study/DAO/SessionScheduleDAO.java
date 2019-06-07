@@ -1,22 +1,14 @@
-package org.study.dao;
+package org.study.DAO;
 
-import java.time.LocalTime;
-import java.util.List;
 import org.study.models.SessionSchedule;
 
-public interface SessionScheduleDao {
+public interface SessionScheduleDAO {
 
-    SessionSchedule get(int scheduleId);
+    SessionSchedule get(int sessionId);
 
-    void updateIsActive(int movieId, boolean isActive);
+    void create(SessionSchedule sessionSchedule);
 
-    void updateMovieInSchedule(int scheduleId, int movieId, boolean isActive);
+    void update(SessionSchedule sessionSchedule);
 
-    List<SessionSchedule> getAllByDay(String weekday);
-
-    List<SessionSchedule> getScheduleByMovieId(int movieId, boolean isActive);
-
-    List<SessionSchedule> getAllNonActive(boolean isActive);
-
-    LocalTime getScheduleTime(int scheduleId);
+    void delete(SessionSchedule sessionSchedule);
 }

@@ -3,9 +3,9 @@ package org.study.dto;
 import org.study.models.enums.Gender;
 import org.study.models.enums.UserRole;
 
-public class RegisteredUserDto {
+public class RegisteredUserDTO {
 
-    private int userId;
+    private int id;
     private String userName;
     private String userSurname;
     private Gender gender;
@@ -13,15 +13,26 @@ public class RegisteredUserDto {
     private String userLogin;
     private String userEMailAddress;
 
-    public RegisteredUserDto() {
+    public RegisteredUserDTO(int id, String userName, String userSurname, Gender gender, UserRole userRole,
+                             String userLogin, String userEMailAddress) {
+        this.id = id;
+        this.userName = userName;
+        this.userSurname = userSurname;
+        this.gender = gender;
+        this.userRole = userRole;
+        this.userLogin = userLogin;
+        this.userEMailAddress = userEMailAddress;
     }
 
-    public int getUserId() {
-        return userId;
+    public RegisteredUserDTO() {
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -75,11 +86,11 @@ public class RegisteredUserDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RegisteredUserDto)) return false;
+        if (!(o instanceof RegisteredUserDTO)) return false;
 
-        RegisteredUserDto that = (RegisteredUserDto) o;
+        RegisteredUserDTO that = (RegisteredUserDTO) o;
 
-        if (userId != that.userId) return false;
+        if (id != that.id) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (userSurname != null ? !userSurname.equals(that.userSurname) : that.userSurname != null) return false;
         if (gender != that.gender) return false;
@@ -90,7 +101,7 @@ public class RegisteredUserDto {
 
     @Override
     public int hashCode() {
-        int result = userId;
+        int result = id;
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (userSurname != null ? userSurname.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);

@@ -1,16 +1,19 @@
-package org.study.dao;
+package org.study.DAO;
 
 import org.study.models.RegisteredUser;
 
-public interface UserDao {
+import java.util.List;
 
-    RegisteredUser getUserById(int userId);
+public interface UserDAO {
 
-    void create(int userRoleId, RegisteredUser registeredUser);
+    RegisteredUser get(int userId);
 
-    void delete(int userID);
+    void create(RegisteredUser registeredUser);
 
-    void update(int userID, String clientLogin, String clientPassword);
+    void delete(RegisteredUser registeredUser);
 
-    RegisteredUser getUserByLoginAndPassword(String userLogin, String userPassword);
+    void update(RegisteredUser registeredUser);
+
+    List<RegisteredUser> getAll();
+
 }
