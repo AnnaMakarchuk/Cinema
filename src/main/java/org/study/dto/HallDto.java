@@ -1,28 +1,25 @@
-package org.study.models;
+package org.study.dto;
 
 import java.util.List;
 import java.util.Map;
+import org.study.models.Place;
 
-public class Hall {
+public class HallDto {
     private int hallId;
     private String hallName;
     private int maxRow;
     private int maxPlacesInRow;
-    private Map<Integer, Double> priceType;
+    private Map<Integer,Double> priceType;
     private List<Place> occupiedPlaces;
 
-    public Hall(int hallId, String hallName, int maxRow, int maxPlacesInRow) {
-        this.hallId = hallId;
-        this.hallName = hallName;
-        this.maxRow = maxRow;
-        this.maxPlacesInRow = maxPlacesInRow;
+    public HallDto() {
     }
 
-    public int getId() {
+    public int getHallId() {
         return hallId;
     }
 
-    public void setId(int hallId) {
+    public void setHallId(int hallId) {
         this.hallId = hallId;
     }
 
@@ -58,25 +55,27 @@ public class Hall {
         this.priceType = priceType;
     }
 
-    public List<Place> getOccupiedPlaces() {
+    public List<Place> getOccuipaiedPlaces() {
         return occupiedPlaces;
     }
 
-    public void setOccupiedPlaces(List<Place> occupiedPlaces) {
-        this.occupiedPlaces = occupiedPlaces;
+    public void setOccuipaiedPlaces(List<Place> occuipaiedPlaces) {
+        this.occupiedPlaces = occuipaiedPlaces;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Hall)) return false;
+        if (!(o instanceof HallDto)) return false;
 
-        Hall hall = (Hall) o;
+        HallDto hallDto = (HallDto) o;
 
-        if (hallId != hall.hallId) return false;
-        if (maxRow != hall.maxRow) return false;
-        if (maxPlacesInRow != hall.maxPlacesInRow) return false;
-        return hallName != null ? hallName.equals(hall.hallName) : hall.hallName == null;
+        if (hallId != hallDto.hallId) return false;
+        if (maxRow != hallDto.maxRow) return false;
+        if (maxPlacesInRow != hallDto.maxPlacesInRow) return false;
+        if (hallName != null ? !hallName.equals(hallDto.hallName) : hallDto.hallName != null) return false;
+        if (priceType != null ? !priceType.equals(hallDto.priceType) : hallDto.priceType != null) return false;
+        return occupiedPlaces != null ? occupiedPlaces.equals(hallDto.occupiedPlaces) : hallDto.occupiedPlaces == null;
     }
 
     @Override
@@ -85,16 +84,20 @@ public class Hall {
         result = 31 * result + (hallName != null ? hallName.hashCode() : 0);
         result = 31 * result + maxRow;
         result = 31 * result + maxPlacesInRow;
+        result = 31 * result + (priceType != null ? priceType.hashCode() : 0);
+        result = 31 * result + (occupiedPlaces != null ? occupiedPlaces.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Hall{" +
-                "id=" + hallId +
+        return "HallDTO{" +
+                "hallId=" + hallId +
                 ", hallName='" + hallName + '\'' +
                 ", maxRow=" + maxRow +
                 ", maxPlacesInRow=" + maxPlacesInRow +
+                ", priceType=" + priceType +
+                ", occuipaiedPlaces=" + occupiedPlaces +
                 '}';
     }
 }

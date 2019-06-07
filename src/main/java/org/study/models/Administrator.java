@@ -2,30 +2,18 @@ package org.study.models;
 
 import org.study.models.enums.Gender;
 import org.study.models.enums.UserRole;
-import org.study.utils.ResultSetTablesData;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Administrator extends RegisteredUser {
     private double monthSalary;
     private int workingHoursWeek;
 
-    public Administrator(int id, String userName, String userSurname, Gender gender, UserRole userRole,
-                         String userLogin, String userEMailAddress, String userPassword, double monthSalary,
-                         int workingHoursWeek) {
-        super(id, userName, userSurname, gender, userRole, userLogin, userEMailAddress, userPassword);
+    public Administrator(int administratorId, String administratorName, String administratorSurname, Gender gender,
+                         UserRole userRole, String administratorLogin, String administratorEMailAddress,
+                         String administratorPassword, double monthSalary, int workingHoursWeek) {
+        super(administratorId, administratorName, administratorSurname, gender, userRole, administratorLogin,
+                administratorEMailAddress, administratorPassword);
         this.monthSalary = monthSalary;
         this.workingHoursWeek = workingHoursWeek;
-    }
-
-    /**
-     * create Administrator with constructor with an input parameter ResultSet*
-     */
-    public Administrator(ResultSet resultSet) throws SQLException {
-        super(resultSet);
-        this.monthSalary = ResultSetTablesData.getDoubleByName(ResultSetTablesData.USER_SALARY, resultSet);
-        this.workingHoursWeek = ResultSetTablesData.getIntByName(ResultSetTablesData.USER_HOURS, resultSet);
     }
 
     public double getMonthSalary() {

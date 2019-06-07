@@ -1,44 +1,33 @@
 package org.study.models;
 
 import org.study.models.enums.WeekDay;
-import org.study.utils.ResultSetTablesData;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalTime;
 
 public class SessionSchedule {
-    private int id;
+    private int scheduleId;
     private WeekDay weekDay;
     private LocalTime time;
     private Hall hall;
     private Movie movie;
 
-    public SessionSchedule(int id, WeekDay weekDay, LocalTime time, Hall hall, Movie movie) {
-        this.id = id;
+    public SessionSchedule(int scheduleId, WeekDay weekDay, LocalTime time, Hall hall, Movie movie) {
+        this.scheduleId = scheduleId;
         this.weekDay = weekDay;
         this.time = time;
         this.hall = hall;
         this.movie = movie;
     }
 
-    /**
-     * create SessionSchedule with constructor with an input parameter ResultSet*
-     */
-    public SessionSchedule(ResultSet resultSet) throws SQLException {
-        this.id = ResultSetTablesData.getIntByName(ResultSetTablesData.ID, resultSet);
-        this.weekDay = ResultSetTablesData.getWeekDay(resultSet);
-        this.time = ResultSetTablesData.getTimeByName(ResultSetTablesData.SESSION_TIME, resultSet);
-        this.hall = new Hall(resultSet);
-        this.movie = new Movie(resultSet);
+    public SessionSchedule() {
     }
 
     public int getId() {
-        return id;
+        return scheduleId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.scheduleId = id;
     }
 
     public WeekDay getWeekDay() {
@@ -80,7 +69,7 @@ public class SessionSchedule {
 
         SessionSchedule that = (SessionSchedule) o;
 
-        if (id != that.id) return false;
+        if (scheduleId != that.scheduleId) return false;
         if (weekDay != that.weekDay) return false;
         if (time != null ? !time.equals(that.time) : that.time != null) return false;
         if (hall != null ? !hall.equals(that.hall) : that.hall != null) return false;
@@ -89,7 +78,7 @@ public class SessionSchedule {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = scheduleId;
         result = 31 * result + (weekDay != null ? weekDay.hashCode() : 0);
         result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (hall != null ? hall.hashCode() : 0);
@@ -100,7 +89,7 @@ public class SessionSchedule {
     @Override
     public String toString() {
         return "SessionSchedule{" +
-                "id=" + id +
+                "id=" + scheduleId +
                 ", weekDay=" + weekDay +
                 ", time=" + time +
                 ", hall=" + hall +

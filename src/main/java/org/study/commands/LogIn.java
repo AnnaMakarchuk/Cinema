@@ -1,10 +1,9 @@
 package org.study.commands;
 
 import org.apache.log4j.Logger;
-import org.study.DTO.RegisteredUserDTO;
+import org.study.dto.RegisteredUserDTO;
 import org.study.facade.UserFacade;
 import org.study.factories.FacadeFactory;
-import org.study.models.enums.UserRole;
 import org.study.servlets.FrontControllerServlet;
 
 import javax.servlet.http.HttpServletRequest;

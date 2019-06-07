@@ -1,7 +1,7 @@
 package org.study.facade;
 
 import org.apache.log4j.Logger;
-import org.study.DTO.RegisteredUserDTO;
+import org.study.dto.RegisteredUserDTO;
 import org.study.factories.ServiceFactory;
 import org.study.models.RegisteredUser;
 import org.study.services.UserService;

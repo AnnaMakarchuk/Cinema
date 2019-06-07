@@ -1,7 +1,7 @@
 package org.study.facade;
 
 import org.apache.log4j.Logger;
-import org.study.DTO.MovieDTO;
+import org.study.dto.MovieDTO;
 import org.study.factories.ServiceFactory;
 import org.study.models.Movie;
 import org.study.services.MovieService;
@@ -16,7 +16,7 @@ public class MovieFacade {
     private MovieService movieService = ServiceFactory.getInstance().getMovieService();
 
     /**
-     * this method convert list of movie models to list of movie DTO models
+     * this method convert list of movie models to list of movie dto models
      *
      * @return List<MovieDTO>
      */
