@@ -8,16 +8,13 @@ public interface TicketService {
 
     List<Ticket> viewAllTicketsByUser(int userId);
 
-    void createTicketByUser(int userId, Ticket ticket);
+    void createTicketByUser(int userId, int sessionId, List<Ticket> ticketList);
 
-    void updateTicketByUser(Ticket ticket);
+    void deleteTicketByUser(int ticketId);
 
-    void deleteTicketByUser(Ticket ticket);
+    void deleteTicketByAdmin(List<Integer> scheduleIdList);
 
-    int countOccupiedPlacesBySessionSchedule(int sessionId);
+    int countOccupiedPlaces();
 
-    List<Ticket> viewAllTicketsBySessionSchedule(int sessionId);
-
-    void deleteTicketByAdmin(int sessionId);
-
+    List<Ticket> viewAllTicketsByPages(int pageNumber, int rowsOnPage);
 }

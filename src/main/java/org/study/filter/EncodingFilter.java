@@ -1,8 +1,13 @@
 package org.study.filter;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 
-import javax.servlet.*;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
@@ -27,6 +32,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("Destroying of EncodingFilter");
+        LOG.info("Destroying of EncodingFilter");
     }
 }

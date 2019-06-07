@@ -1,19 +1,20 @@
 package org.study.services;
 
-import org.study.models.RegisteredUser;
-
 import java.util.List;
+import org.study.models.RegisteredUser;
 
 public interface UserService {
 
     RegisteredUser viewUser(int userId);
 
-    List<RegisteredUser> viewAllAvailableUsers();
+    void registerNewUser(String name, String surname, String userRole, String gender, String login,
+                         String userEMailAddress, String password);
 
-    void registerNewUser(RegisteredUser registeredUser);
+    RegisteredUser updateUserInformation (int clientId, String clientLogin, String clientPassword);
 
-    void updateUserInformation(RegisteredUser registeredUser);
+    void deleteUser(int userId);
 
-    void deleteUser(RegisteredUser registeredUser);
+    RegisteredUser getUserByLoginPassword(String userLogin, String userPassword);
 
+    List<RegisteredUser> createListUsersFromTicket(List<Integer> scheduleIdList);
 }

@@ -1,7 +1,17 @@
 package org.study.factories;
 
-import org.study.services.*;
-import org.study.services.impl.*;
+import org.study.services.AdministratorService;
+import org.study.services.HallService;
+import org.study.services.MovieService;
+import org.study.services.SessionScheduleService;
+import org.study.services.TicketService;
+import org.study.services.UserService;
+import org.study.services.impl.AdministratorServiceImpl;
+import org.study.services.impl.HallServiceImpl;
+import org.study.services.impl.MovieServiceImpl;
+import org.study.services.impl.SessionScheduleServiceImpl;
+import org.study.services.impl.TicketServiceImpl;
+import org.study.services.impl.UserServiceImpl;
 
 public class ServiceFactory {
 
@@ -9,29 +19,21 @@ public class ServiceFactory {
 
     private AdministratorService administratorService;
     private UserService userService;
-    private UserRoleService userRoleService;
     private TicketService ticketService;
     private SessionScheduleService sessionScheduleService;
     private HallService hallService;
     private MovieService movieService;
-    private MovieGenreService movieGenreService;
 
-    public ServiceFactory() {
+    private ServiceFactory() {
         this.administratorService = new AdministratorServiceImpl();
         this.userService = new UserServiceImpl();
-        this.userRoleService = new UserRoleServiceImpl();
         this.ticketService = new TicketServiceImpl();
         this.sessionScheduleService = new SessionScheduleServiceImpl();
         this.hallService = new HallServiceImpl();
         this.movieService = new MovieServiceImpl();
-        this.movieGenreService = new MovieGenreServiceImpl();
     }
 
     public static ServiceFactory getInstance() {
-        return SERVICE_FACTORY_INSTANCE;
-    }
-
-    public static ServiceFactory getServiceFactoryInstance() {
         return SERVICE_FACTORY_INSTANCE;
     }
 
@@ -41,10 +43,6 @@ public class ServiceFactory {
 
     public UserService getUserService() {
         return userService;
-    }
-
-    public UserRoleService getUserRoleService() {
-        return userRoleService;
     }
 
     public TicketService getTicketService() {
@@ -61,9 +59,5 @@ public class ServiceFactory {
 
     public MovieService getMovieService() {
         return movieService;
-    }
-
-    public MovieGenreService getMovieGenreService() {
-        return movieGenreService;
     }
 }
