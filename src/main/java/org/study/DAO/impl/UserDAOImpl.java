@@ -1,98 +1,60 @@
-package org.study.DAO.impl;
+package org.study.dao.impl;
 
 import org.apache.log4j.Logger;
+import org.study.dao.mappers.Mapper;
 import org.study.configuration.TransactionManager;
+import org.study.factories.MapperFactory;
 import org.study.models.RegisteredUser;
-import org.study.DAO.UserDAO;
+import org.study.dao.UserDao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
-    private static final Logger LOG = Logger.getLogger(UserDAOImpl.class);
-    private static final Connection INSTANCE = TransactionManager.getInstance();
+public class UserDaoImpl implements UserDao {
+    private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
+    private Mapper<RegisteredUser> registeredUserMapper = MapperFactory.getInstance().getRegisteredUserMapper();
 
     private static final String USER_SQL_GET = "SELECT u.*, r.role FROM user as u JOIN user_role as r " +
-            "ON u.role_id = r.id WHERE r.role = 'client' AND u.id IN (?)";
+            "ON u.role_id = r.id WHERE r.role = 'client' AND u.id = (?)";
+    private static final String USER_SQL_GET_BY_LOG_PASS = "SELECT u.*, r.role FROM user as u JOIN user_role as r " +
+            "ON u.role_id = r.id WHERE u.login = (?) AND u.password = (?) ";
     private static final String USER_SQL_CREATE = "INSERT INTO user (name, surname, gender, role_id, login," +
             " email_address, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String USER_SQL_UPDATE = "UPDATE user SET name = (?), surname = (?), gender = (?), " +
-            "role_id  = (?), login = (?), email_address = (?), password = (?) WHERE id IN (?)";
-    private static final String USER_SQL_DELETE = "DELETE FROM user WHERE login IN (?)";
-    private static final String USER_SQL_GET_ALL = "SELECT u.*, r.role FROM user as u JOIN user_role as r " +
-            "ON u.role_id = r.id WHERE r.role = 'client'";
-    private static final String ROLE_SQL_GETID = "SELECT id FROM user_role WHERE role IN (?)";
+    private static final String USER_SQL_UPDATE = "UPDATE user SET login = (?), password = (?) WHERE id = (?)";
+    private static final String USER_SQL_DELETE = "DELETE FROM user WHERE id = (?)";
 
     /**
-     * this method get user by id from database
-     *
-     * @param userId
-     * @return user
+     * this method getUserById user by id from database
      */
     @Override
-    public RegisteredUser get(int userId) {
+    public RegisteredUser getUserById(int userId) {
         RegisteredUser registeredUser = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = INSTANCE.prepareStatement(USER_SQL_GET);
+        try (PreparedStatement preparedStatement = TransactionManager.getInstance()
+                .prepareStatement(USER_SQL_GET);) {
             preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
-            LOG.info("Committing data here...");
-            TransactionManager.beginCommit();
-            while (resultSet.next()) {
-                registeredUser = new RegisteredUser(resultSet);
-                LOG.info("Registered user with login " + userId + " is selected");
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    registeredUser = registeredUserMapper.createModel(resultSet);
+                    LOG.info("Registered user with id " + userId + " was selected");
+                }
             }
-            LOG.info("The transaction was successfully");
         } catch (SQLException e) {
-            LOG.error("Transaction failed, rollback the transaction", e);
-            TransactionManager.endTransaction();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Result Set closing is failed", e);
-            }
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement closing is failed", e);
-            }
+            LOG.error("Connection failed", e);
         }
         return registeredUser;
     }
 
     /**
-     * this method create new user in database, this method firstly get user role id for role type
+     * this method create new user in database, this method firstly getUserById user role id for role type
      * and the substitute this parameter in user table column role_id
-     *
-     * @param registeredUser
      */
     @Override
-    public void create(RegisteredUser registeredUser) {
-        PreparedStatement preparedStatement1 = null;
-        ResultSet resultSet1 = null;
-        PreparedStatement preparedStatement2 = null;
-        Connection con = null;
-        try {
-            con = INSTANCE;
-            preparedStatement1 = con.prepareStatement(ROLE_SQL_GETID);
-            preparedStatement1.setString(1, registeredUser.getUserRole().name().toLowerCase());
-            resultSet1 = preparedStatement1.executeQuery();
-            resultSet1.next();
-            int roleId = resultSet1.getInt("id");
-            preparedStatement2 = con.prepareStatement(USER_SQL_CREATE);
-            setInsertValues(preparedStatement2, registeredUser, roleId);
-            preparedStatement2.executeUpdate();
+    public void create(int userRoleId, RegisteredUser registeredUser) {
+        try (PreparedStatement preparedStatement = TransactionManager.getInstance()
+                .prepareStatement(USER_SQL_CREATE)) {
+            setInsertValues(preparedStatement, registeredUser, userRoleId);
+            preparedStatement.executeUpdate();
             LOG.info("Committing data here...");
             TransactionManager.beginCommit();
             LOG.info("The transaction was successfully");
@@ -100,158 +62,70 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             LOG.error("Transaction failed, rollback the transaction", e);
             TransactionManager.endTransaction();
-        } finally {
-            try {
-                if (resultSet1 != null) {
-                    resultSet1.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Result Set for getting role id closing is failed", e);
-            }
-            try {
-                if (preparedStatement1 != null) {
-                    preparedStatement1.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement for getting role id closing is failed", e);
-            }
-            try {
-                if (preparedStatement2 != null) {
-                    preparedStatement2.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement for create user closing is failed", e);
-            }
         }
     }
 
     /**
-     * this method update user in database, this method firstly get user role id for role type
+     * this method updateIsActive user in database, this method firstly getUserById user role id for role type
      * (in case of roles extension this method would work correctly)
      * and the substitute this parameter in user table column role_id
-     *
-     * @param registeredUser
      */
     @Override
-    public void update(RegisteredUser registeredUser) {
-        PreparedStatement preparedStatement1 = null;
-        ResultSet resultSet1 = null;
-        PreparedStatement preparedStatement2 = null;
-        Connection con = null;
-        try {
-            con = INSTANCE;
-            preparedStatement1 = con.prepareStatement(ROLE_SQL_GETID);
-            preparedStatement1.setString(1, registeredUser.getUserRole().name().toLowerCase());
-            resultSet1 = preparedStatement1.executeQuery();
-            resultSet1.next();
-            int roleId = resultSet1.getInt("id");
-            preparedStatement2 = con.prepareStatement(USER_SQL_UPDATE);
-            setInsertValues(preparedStatement2, registeredUser, roleId);
-            preparedStatement2.setInt(8, registeredUser.getId());
-            preparedStatement2.executeUpdate();
+    public void update(int userID, String clientLogin, String clientPassword) {
+        try (PreparedStatement preparedStatement = TransactionManager.getInstance()
+                .prepareStatement(USER_SQL_UPDATE);) {
+            setChangingValues(userID, clientLogin, clientPassword, preparedStatement);
+            preparedStatement.executeUpdate();
             LOG.info("Committing data here...");
             TransactionManager.beginCommit();
             LOG.info("The transaction was successfully");
-            LOG.info("Registered User with id " + registeredUser.getId() + " and login " +
-                    registeredUser.getUserLogin() + "was updated");
+            LOG.info("Registered User with id " + userID + " and login " + clientLogin + "was updated");
         } catch (SQLException e) {
             LOG.error("Transaction failed, rollback the transaction", e);
             TransactionManager.endTransaction();
-        } finally {
-            try {
-                if (resultSet1 != null) {
-                    resultSet1.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Result Set for getting role id closing is failed", e);
-            }
-            try {
-                if (preparedStatement1 != null) {
-                    preparedStatement1.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement for getting role id closing is failed", e);
-            }
-            try {
-                if (preparedStatement2 != null) {
-                    preparedStatement2.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement for user update closing is failed", e);
-            }
         }
     }
 
     /**
      * this method delete concrete user from database
-     *
-     * @param registeredUser
      */
     @Override
-    public void delete(RegisteredUser registeredUser) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = INSTANCE.prepareStatement(USER_SQL_DELETE);
-            preparedStatement.setString(1, registeredUser.getUserLogin());
+    public void delete(int userID) {
+        try (PreparedStatement preparedStatement = TransactionManager.getInstance()
+                .prepareStatement(USER_SQL_DELETE);) {
+            preparedStatement.setInt(1, userID);
             preparedStatement.executeUpdate();
             LOG.info("Committing data here...");
             TransactionManager.beginCommit();
             LOG.info("The transaction was successfully");
-            LOG.info("Reegistered user with login " + registeredUser.getUserLogin() + " was deleted");
+            LOG.info("Reegistered user with id " + userID + " was deleted");
         } catch (SQLException e) {
             LOG.error("Transaction failed, rollback the transaction", e);
             TransactionManager.endTransaction();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement closing is failed", e);
-            }
         }
     }
 
     /**
-     * this method get all registered users from database
-     *
-     * @return registeredUserList
+     * this method select registeredUser by login and password.
+     * If no coincidence in database registeredUser will be null
      */
     @Override
-    public List<RegisteredUser> getAll() {
-        List<RegisteredUser> registeredUserList = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = INSTANCE.prepareStatement(USER_SQL_GET_ALL);
-            resultSet = preparedStatement.executeQuery();
-            LOG.info("Committing data here...");
-            TransactionManager.beginCommit();
-            while (resultSet.next()) {
-                registeredUserList.add(new RegisteredUser(resultSet));
-                LOG.info("List of all registered users is create");
+    public RegisteredUser getUserByLoginAndPassword(String userLogin, String userPassword) {
+        RegisteredUser registeredUser = null;
+        try (PreparedStatement preparedStatement = TransactionManager.getInstance()
+                .prepareStatement(USER_SQL_GET_BY_LOG_PASS);) {
+            preparedStatement.setString(1, userLogin);
+            preparedStatement.setString(2, userPassword);
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    registeredUser = registeredUserMapper.createModel(resultSet);
+                    LOG.info("Registered user with login " + userLogin + " was selected");
+                }
             }
-            LOG.info("The transaction was successfully");
         } catch (SQLException e) {
-            LOG.error("Transaction failed, rollback the transaction", e);
-            TransactionManager.endTransaction();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Result Set closing is failed", e);
-            }
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("Prepared Statement closing is failed", e);
-            }
+            LOG.error("Connection failed", e);
         }
-        return registeredUserList;
+        return registeredUser;
     }
 
     private void setInsertValues(PreparedStatement preparedStatement, RegisteredUser registeredUser, int roleId)
@@ -263,5 +137,12 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setString(5, registeredUser.getUserLogin());
         preparedStatement.setString(6, registeredUser.getUserEMailAddress());
         preparedStatement.setString(7, registeredUser.getUserPassword());
+    }
+
+    private void setChangingValues(int userID, String clientLogin, String clientPassword,
+                                   PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, clientLogin);
+        preparedStatement.setString(2, clientPassword);
+        preparedStatement.setInt(3, userID);
     }
 }

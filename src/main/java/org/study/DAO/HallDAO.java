@@ -1,14 +1,8 @@
-package org.study.DAO;
+package org.study.dao;
 
 import org.study.models.Hall;
 
-public interface HallDAO {
+public interface HallDao {
 
     Hall get(int hallId);
-
-    void create(Hall hall);
-
-    void update(Hall hall);
-
-    void delete(Hall hall);
 }

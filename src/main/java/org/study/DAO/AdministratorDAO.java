@@ -1,15 +1,10 @@
-package org.study.DAO;
+package org.study.dao;
 
 import org.study.models.Administrator;
 
-public interface AdministratorDAO {
+public interface AdministratorDao {
 
-    Administrator get(int id);
+    Administrator get(int administratorId);
 
-    void create(Administrator administrator);
-
-    void update(Administrator administrator);
-
-    void delete(Administrator administrator);
-
+    void update(int administratorId, String adminLogin, String adminPassword);
 }
