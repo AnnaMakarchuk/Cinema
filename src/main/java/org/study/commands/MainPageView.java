@@ -1,7 +1,7 @@
 package org.study.commands;
 
 import org.apache.log4j.Logger;
-import org.study.DTO.MovieDTO;
+import org.study.dto.MovieDTO;
 import org.study.facade.MovieFacade;
 import org.study.factories.FacadeFactory;
 
@@ -14,7 +14,7 @@ public class MainPageView implements Command {
     private MovieFacade movieFacade = FacadeFactory.getInstance().getMovieFacade();
 
     /**
-     * this method create Movie DTO list for main page
+     * this method create Movie dto list for main page
      *
      * @param request
      * @return String

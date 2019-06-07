@@ -1,12 +1,11 @@
 package org.study.filter;
 
 import org.apache.log4j.*;
-import org.study.DTO.RegisteredUserDTO;
+import org.study.dto.RegisteredUserDTO;
 import org.study.models.enums.UserRole;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthenticationFilter implements Filter {

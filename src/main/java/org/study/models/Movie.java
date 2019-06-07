@@ -1,22 +1,18 @@
 package org.study.models;
 
 import org.study.models.enums.MovieGenre;
-import org.study.utils.ResultSetTablesData;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Movie {
-    private int id;
+    private int movieId;
     private String movieName;
     private MovieGenre movieGenre;
     private int movieDuration;
     private int ageLimit;
     private String movieDescription;
 
-    public Movie(int id, String movieName, MovieGenre movieGenre, int movieDuration, int ageLimit,
+    public Movie(int movieId, String movieName, MovieGenre movieGenre, int movieDuration, int ageLimit,
                  String movieDescription) {
-        this.id = id;
+        this.movieId = movieId;
         this.movieName = movieName;
         this.movieGenre = movieGenre;
         this.movieDuration = movieDuration;
@@ -24,24 +20,21 @@ public class Movie {
         this.movieDescription = movieDescription;
     }
 
-    /**
-     * create Movie with constructor with an input parameter ResultSet*
-     */
-    public Movie(ResultSet resultSet) throws SQLException {
-        this.id = ResultSetTablesData.getIntByName(ResultSetTablesData.ID, resultSet);
-        this.movieName = ResultSetTablesData.getStringByName(ResultSetTablesData.NAME, resultSet);
-        this.movieGenre = ResultSetTablesData.getMovieGenre(resultSet);
-        this.movieDuration = ResultSetTablesData.getIntByName(ResultSetTablesData.MOVIE_DURATION, resultSet);
-        this.ageLimit = ResultSetTablesData.getIntByName(ResultSetTablesData.MOVIE_AGE, resultSet);
-        this.movieDescription = ResultSetTablesData.getStringByName(ResultSetTablesData.MOVIE_DESCRIPTION, resultSet);
+    public Movie(String movieName, MovieGenre movieGenre, int movieDuration, int ageLimit,
+                 String movieDescription) {
+        this.movieName = movieName;
+        this.movieGenre = movieGenre;
+        this.movieDuration = movieDuration;
+        this.ageLimit = ageLimit;
+        this.movieDescription = movieDescription;
     }
 
     public int getId() {
-        return id;
+        return movieId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.movieId = id;
     }
 
     public String getMovieName() {
@@ -91,7 +84,7 @@ public class Movie {
 
         Movie movie = (Movie) o;
 
-        if (id != movie.id) return false;
+        if (movieId != movie.movieId) return false;
         if (movieDuration != movie.movieDuration) return false;
         if (ageLimit != movie.ageLimit) return false;
         if (movieName != null ? !movieName.equals(movie.movieName) : movie.movieName != null) return false;
@@ -101,7 +94,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = movieId;
         result = 31 * result + (movieName != null ? movieName.hashCode() : 0);
         result = 31 * result + (movieGenre != null ? movieGenre.hashCode() : 0);
         result = 31 * result + movieDuration;
@@ -113,7 +106,7 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
+                "id=" + movieId +
                 ", movieName='" + movieName + '\'' +
                 ", movieGenre=" + movieGenre +
                 ", movieDuration=" + movieDuration +

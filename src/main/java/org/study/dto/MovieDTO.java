@@ -1,4 +1,4 @@
-package org.study.DTO;
+package org.study.dto;
 
 import org.study.models.enums.MovieGenre;
 

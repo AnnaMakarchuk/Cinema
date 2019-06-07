@@ -1,39 +1,29 @@
 package org.study.models;
 
-import org.study.utils.ResultSetTablesData;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class Ticket {
-    private int id;
+    private int ticketId;
     private double ticketPrice;
     private SessionSchedule sessionSchedule;
     private Place place;
 
-    public Ticket(int id, SessionSchedule sessionSchedule, Place place, double ticketPrice) {
-        this.id = id;
+    public Ticket(int ticketId, SessionSchedule sessionSchedule, Place place, double ticketPrice) {
+        this.ticketId = ticketId;
         this.sessionSchedule = sessionSchedule;
         this.place = place;
         this.ticketPrice = ticketPrice;
     }
 
-    /**
-     * create Ticket with constructor with an input parameter ResultSet*
-     */
-    public Ticket(ResultSet resultSet) throws SQLException {
-        this.id = ResultSetTablesData.getIntByName(ResultSetTablesData.ID, resultSet);
-        this.sessionSchedule = new SessionSchedule(resultSet);
-        this.place = new Place(resultSet);
-        this.ticketPrice = ResultSetTablesData.getDoubleByName(ResultSetTablesData.TICKET_PRICE, resultSet);
+    public Ticket(Place place, double ticketPrice) {
+        this.place = place;
+        this.ticketPrice = ticketPrice;
     }
 
     public int getId() {
-        return id;
+        return ticketId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.ticketId = ticketId;
     }
 
     public Place getPlace() {
@@ -67,7 +57,7 @@ public class Ticket {
 
         Ticket ticket = (Ticket) o;
 
-        if (id != ticket.id) return false;
+        if (ticketId != ticket.ticketId) return false;
         if (Double.compare(ticket.ticketPrice, ticketPrice) != 0) return false;
         if (sessionSchedule != null ? !sessionSchedule.equals(ticket.sessionSchedule) : ticket.sessionSchedule != null)
             return false;
@@ -78,7 +68,7 @@ public class Ticket {
     public int hashCode() {
         int result;
         long temp;
-        result = id;
+        result = ticketId;
         temp = Double.doubleToLongBits(ticketPrice);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (sessionSchedule != null ? sessionSchedule.hashCode() : 0);
@@ -89,7 +79,7 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{" +
-                "id=" + id +
+                "id=" + ticketId +
                 ", ticketPrice=" + ticketPrice +
                 ", sessionSchedule=" + sessionSchedule +
                 ", place=" + place +
