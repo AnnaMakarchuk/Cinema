@@ -10,7 +10,7 @@ public class HallDto {
     private int maxRow;
     private int maxPlacesInRow;
     private Map<Integer,Double> priceType;
-    private List<Place> occupiedPlaces;
+    private List<PlaceDto> occupiedPlaces;
 
     public HallDto() {
     }
@@ -55,12 +55,12 @@ public class HallDto {
         this.priceType = priceType;
     }
 
-    public List<Place> getOccuipaiedPlaces() {
+    public List<PlaceDto> getOccupiedPlaces() {
         return occupiedPlaces;
     }
 
-    public void setOccuipaiedPlaces(List<Place> occuipaiedPlaces) {
-        this.occupiedPlaces = occuipaiedPlaces;
+    public void setOccupiedPlaces(List<PlaceDto> occupiedPlaces) {
+        this.occupiedPlaces = occupiedPlaces;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class HallDto {
                 ", maxRow=" + maxRow +
                 ", maxPlacesInRow=" + maxPlacesInRow +
                 ", priceType=" + priceType +
-                ", occuipaiedPlaces=" + occupiedPlaces +
+                ", occupiedPlaces=" + occupiedPlaces +
                 '}';
     }
 }

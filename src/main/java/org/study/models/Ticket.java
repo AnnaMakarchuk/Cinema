@@ -13,6 +13,12 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
     }
 
+    public Ticket(SessionSchedule sessionSchedule, Place place, double ticketPrice) {
+        this.sessionSchedule = sessionSchedule;
+        this.place = place;
+        this.ticketPrice = ticketPrice;
+    }
+
     public Ticket(Place place, double ticketPrice) {
         this.place = place;
         this.ticketPrice = ticketPrice;

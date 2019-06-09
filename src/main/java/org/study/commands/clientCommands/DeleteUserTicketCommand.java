@@ -3,16 +3,16 @@ package org.study.commands.clientCommands;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.Command;
 import org.study.facade.TicketFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 
-public class DeleteUserTicket implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewClientCabinet.class);
+public class DeleteUserTicketCommand extends AbstractClientCommand {
+    private static final Logger LOG = Logger.getLogger(ViewClientCabinetCommand.class);
 
     private TicketFacade ticketFacade;
 
-    public DeleteUserTicket() {
+    public DeleteUserTicketCommand() {
         this.ticketFacade = FacadeFactory.getInstance().getTicketFacade();
     }
 
@@ -21,9 +21,9 @@ public class DeleteUserTicket implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String idParameter = request.getParameter("ticket_id");
+        String idParameter = request.getParameter(ParametersNames.TICKET_ID);
         if (Objects.isNull(idParameter)) {
-            return "jsp/404.jsp";
+            return "pages/404.jsp";
         }
         int ticketId = Integer.parseInt(idParameter);
         ticketFacade.deleteTicketByID(ticketId);

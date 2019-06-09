@@ -5,4 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface Command {
 
     String execute(HttpServletRequest request);
+
+    boolean checkPermissions(HttpServletRequest request);
 }

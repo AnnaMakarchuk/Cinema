@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.study.dto.PlaceDto;
+import org.study.dto.PositionDto;
 import org.study.dto.TicketDto;
 import org.study.models.Hall;
 import org.study.models.Movie;
@@ -148,20 +150,14 @@ public class TicketFacadeTest {
 
     @Test
     public void shouldCallAddServiceMethod() {
-        List<TicketDto> expected = new ArrayList<>();
-        TicketDto ticketDto1 = new TicketDto();
-        ticketDto1.setTicketPrice(50);
-        ticketDto1.setMovieName("Avengers");
-        ticketDto1.setPlaceRow(4);
-        ticketDto1.setPlaceNumber(4);
-        expected.add(ticketDto1);
+        List<PlaceDto> placeDtos = new ArrayList<>();
+        placeDtos.add(new PlaceDto(3, 4));
+        PositionDto expected = new PositionDto();
+        expected.setScheduleId(1);
+        expected.setPlaces(placeDtos);
 
-        TicketDto ticketDto2 = new TicketDto();
-        ticketDto2.setTicketPrice(100);
-        ticketDto1.setMovieName("Avengers");
-        ticketDto2.setPlaceRow(5);
-        ticketDto2.setPlaceNumber(6);
-        expected.add(ticketDto2);
+        List<Place> places =  new ArrayList<>();
+        places.add(new Place(3, 4));
 
         Ticket ticket1 = new Ticket(new Place(4, 4), 50);
         Ticket ticket2 = new Ticket(new Place(5, 6), 100);
@@ -169,8 +165,8 @@ public class TicketFacadeTest {
         ticketList.add(ticket1);
         ticketList.add(ticket2);
 
-        ticketFacade.addNewTickets(1, 1, expected);
+        ticketFacade.addNewTickets(1, 1, placeDtos);
 
-        verify(ticketService).createTicketByUser(1, 1, ticketList);
+        verify(ticketService).createTicketByUser(1, 1, places);
     }
 }

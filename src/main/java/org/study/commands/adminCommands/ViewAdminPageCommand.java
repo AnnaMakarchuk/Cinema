@@ -2,10 +2,9 @@ package org.study.commands.adminCommands;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.Command;
 
-public class ViewAdminPage implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewAdminPage.class);
+public class ViewAdminPageCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(ViewAdminPageCommand.class);
 
     /**
      * this command view page with access to admin cabinet

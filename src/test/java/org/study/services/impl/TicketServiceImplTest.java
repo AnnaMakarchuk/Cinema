@@ -72,13 +72,6 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void shouldCallCreateMethodTicketDAO() {
-        ticketService.createTicketByUser(1, 1, ticketList);
-        verify(ticketDao).create(1, 1, ticketList.get(0));
-        verify(ticketDao).create(1, 1, ticketList.get(1));
-    }
-
-    @Test
     public void shouldCallDeleteByUserMethodTicketDAO() {
         ticketService.deleteTicketByUser(1);
         verify(ticketDao).delete(1);
@@ -121,13 +114,5 @@ public class TicketServiceImplTest {
         List<Ticket> result = ticketService.viewAllTicketsByPages(2, 10);
 
         assertThat(result, equalTo(expected));
-    }
-
-    @Test
-    public void shouldCallAddDAOMethod() {
-        ticketService.createTicketByUser(1, 1, ticketList);
-        verify(ticketDao).create(1, 1, ticketList.get(0));
-        verify(ticketDao).create(1, 1, ticketList.get(1));
-
     }
 }

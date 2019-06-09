@@ -3,17 +3,17 @@ package org.study.commands.adminCommands;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.Command;
 import org.study.dto.MovieDto;
 import org.study.facade.MovieFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 
-public class ViewCancelledMovie implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewCancelledMovie.class);
+public class ViewCancelledMovieCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(ViewCancelledMovieCommand.class);
 
     private MovieFacade movieFacade;
 
-    public ViewCancelledMovie() {
+    public ViewCancelledMovieCommand() {
         this.movieFacade = FacadeFactory.getInstance().getMovieFacade();
     }
 
@@ -24,7 +24,7 @@ public class ViewCancelledMovie implements Command {
     public String execute(HttpServletRequest request) {
         List<MovieDto> cancelledMovieDtoList = movieFacade.getAllMovies(false);
         LOG.info("List of non-active MovieDTO was selected");
-        request.setAttribute("movies", cancelledMovieDtoList);
+        request.setAttribute(ParametersNames.MOVIES, cancelledMovieDtoList);
         return "pages/admin/admin_nonactive_movies.jsp";
     }
 }

@@ -5,16 +5,16 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.TicketDto;
-import org.study.commands.Command;
 import org.study.facade.TicketFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 
-public class ViewAvailableTickets implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewAvailableTickets.class);
+public class ViewAvailableTicketsCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(ViewAvailableTicketsCommand.class);
 
     private TicketFacade ticketFacade;
 
-    public ViewAvailableTickets() {
+    public ViewAvailableTicketsCommand() {
         this.ticketFacade = FacadeFactory.getInstance().getTicketFacade();
     }
 
@@ -24,16 +24,16 @@ public class ViewAvailableTickets implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         int pageQuantities = ticketFacade.countPagesQuantity();
-        request.setAttribute("pages", pageQuantities);
+        request.setAttribute(ParametersNames.PAGES, pageQuantities);
 
-        String pageNumberParameter = request.getParameter("page");
+        String pageNumberParameter = request.getParameter(ParametersNames.PAGE);
         if (Objects.isNull(pageNumberParameter)) {
             pageNumberParameter = "1";
         }
         int page = Integer.parseInt(pageNumberParameter);
         List<TicketDto> ticketListDTO = ticketFacade.allTicketsWithPagination(page);
         LOG.info("List of tickets for page " + page + "was selected");
-        request.setAttribute("tickets", ticketListDTO);
+        request.setAttribute(ParametersNames.TICKETS, ticketListDTO);
         return "pages/admin/admin_tickets_list.jsp";
     }
 }

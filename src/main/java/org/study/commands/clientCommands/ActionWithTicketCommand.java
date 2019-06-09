@@ -1,21 +1,20 @@
 package org.study.commands.clientCommands;
 
 import java.util.List;
-import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.RegisteredUserDto;
 import org.study.dto.TicketDto;
-import org.study.commands.Command;
 import org.study.facade.TicketFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 
-public class ActionWithTicket implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewClientCabinet.class);
+public class ActionWithTicketCommand extends AbstractClientCommand {
+    private static final Logger LOG = Logger.getLogger(ViewClientCabinetCommand.class);
 
     private TicketFacade ticketFacade;
 
-    public ActionWithTicket() {
+    public ActionWithTicketCommand() {
         this.ticketFacade = FacadeFactory.getInstance().getTicketFacade();
     }
 
@@ -24,14 +23,11 @@ public class ActionWithTicket implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        RegisteredUserDto registeredUserDTO = (RegisteredUserDto) request.getSession().getAttribute("user");
-        if (Objects.isNull(registeredUserDTO)) {
-            return "jsp/404.jsp";
-        }
+        RegisteredUserDto registeredUserDTO = (RegisteredUserDto) request.getSession().getAttribute(ParametersNames.USER);
         int registeredUserId = registeredUserDTO.getUserId();
         List<TicketDto> ticketDtoList = ticketFacade.getAllTicketsByUser(registeredUserId);
         LOG.info("List of tickets bought by user with id " + registeredUserId + " is creates");
-        request.setAttribute("tickets", ticketDtoList);
+        request.setAttribute(ParametersNames.TICKETS, ticketDtoList);
         return "pages/client/client_tickets.jsp";
     }
 }

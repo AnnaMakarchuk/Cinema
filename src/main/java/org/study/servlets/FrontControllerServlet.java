@@ -18,17 +18,31 @@ public class FrontControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Command command = COMMAND_FACTORY.createCommand(request);
-        String path = command.execute(request);
-        LOG.info("Get method. Path is " + path);
-        request.getRequestDispatcher(path).forward(request, response);
+        if (checkPermissions(command, request)) {
+            LOG.info("Access is allowed");
+            String path = command.execute(request);
+            LOG.info("Get method. Path is " + path);
+            request.getRequestDispatcher(path).forward(request, response);
+        }
+        LOG.info("Access is denied");
+        request.getRequestDispatcher("pages/403.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Command command = COMMAND_FACTORY.createCommand(request);
-        String path = command.execute(request);
-        LOG.info("Post method. Path is " + path);
-        request.getRequestDispatcher(path).forward(request, response);
+        if (checkPermissions(command, request)) {
+            LOG.info("Access is allowed");
+            String path = command.execute(request);
+            LOG.info("Post method. Path is " + path);
+            request.getRequestDispatcher(path).forward(request, response);
+        }
+        LOG.info("Access is denied");
+        request.getRequestDispatcher("pages/403.jsp");
+    }
+
+    private boolean checkPermissions(Command command, HttpServletRequest request) {
+        return command.checkPermissions(request);
     }
 }

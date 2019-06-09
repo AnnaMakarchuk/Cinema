@@ -1,9 +1,9 @@
 package org.study.commands.clientCommands;
 
 import javax.servlet.http.HttpServletRequest;
-import org.study.commands.Command;
 
-public class ViewClientCabinet implements Command {
+public class ViewClientCabinetCommand extends AbstractClientCommand {
+
     /**
      * this method is a command for view client cabinet after making login
      */

@@ -10,32 +10,32 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import org.study.utils.ParametersNames;
 
 public class LocalizationFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(LocalizationFilter.class);
 
-    private static final String LOCALE = "locale";
     private String defaultLocale;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        defaultLocale = filterConfig.getInitParameter(LOCALE);
+        defaultLocale = filterConfig.getInitParameter(ParametersNames.LOCALE);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String localeParameter = request.getParameter(LOCALE);
+        String localeParameter = request.getParameter(ParametersNames.LOCALE);
         LOG.info("Locale Parameter is " + localeParameter);
         if (isNotBlank(localeParameter)) {
-            httpRequest.getSession().setAttribute(LOCALE, localeParameter);
+            httpRequest.getSession().setAttribute(ParametersNames.LOCALE, localeParameter);
         } else {
-            String sessionLocale = (String) httpRequest.getSession().getAttribute(LOCALE);
+            String sessionLocale = (String) httpRequest.getSession().getAttribute(ParametersNames.LOCALE);
             if (isBlank(sessionLocale)) {
-                httpRequest.getSession().setAttribute(LOCALE, defaultLocale);
+                httpRequest.getSession().setAttribute(ParametersNames.LOCALE, defaultLocale);
             }
         }
-        httpRequest.getSession().getAttribute(LOCALE);
+        httpRequest.getSession().getAttribute(ParametersNames.LOCALE);
         filterChain.doFilter(httpRequest, response);
     }
 

@@ -2,9 +2,8 @@ package org.study.commands.adminCommands;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.Command;
 
-public class ViewPossibleAdminActions implements Command {
+public class ViewPossibleAdminActions extends AbstractAdminCommand {
     private static final Logger LOG = Logger.getLogger(ViewPossibleAdminActions.class);
 
     /**

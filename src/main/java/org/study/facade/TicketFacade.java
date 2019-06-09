@@ -1,8 +1,10 @@
 package org.study.facade;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
+import org.study.dto.PlaceDto;
 import org.study.dto.SessionScheduleDto;
 import org.study.dto.TicketDto;
 import org.study.factories.ServiceFactory;
@@ -61,12 +63,13 @@ public class TicketFacade {
     }
 
     /**
-     * this method convert ticketDTO in ticket and create new tickets
+     * this method convert placesDto in tickets and create new tickets
      */
-    public void addNewTickets(int userId, int scheduleId, List<TicketDto> ticketDtoList) {
-        List<Ticket> ticketList = getTicketsListFromDto(ticketDtoList);
-        ticketService.createTicketByUser(userId, scheduleId, ticketList);
+    public List<TicketDto> addNewTickets(int userId, int scheduleId, List<PlaceDto> placeDtoList) {
+        List<Place> placesList = getPlacesListFromDto(placeDtoList);
+        List<Ticket> listOfBoughtTickets = ticketService.createTicketByUser(userId, scheduleId, placesList);
         LOG.info("TicketFacade method add new tickets for user id " + userId);
+        return createTicketDtoList(listOfBoughtTickets);
     }
 
     private List<TicketDto> createTicketDtoList(List<Ticket> ticketList) {
@@ -86,16 +89,9 @@ public class TicketFacade {
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> getSessionScheduleId(List<SessionScheduleDto> cancelledScheduleList) {
-        return cancelledScheduleList.stream()
-                .map(SessionScheduleDto::getScheduleId)
-                .collect(Collectors.toList());
-    }
-
-    private List<Ticket> getTicketsListFromDto(List<TicketDto> ticketDtoList) {
-        return ticketDtoList.stream()
-                .map(ticketDto -> new Ticket(new Place(ticketDto.getPlaceRow(), ticketDto.getPlaceNumber()),
-                        ticketDto.getTicketPrice()))
+    private List<Place> getPlacesListFromDto(List<PlaceDto> placeDtoList) {
+        return placeDtoList.stream()
+                .map(placeDto -> new Place(placeDto.getRow(), placeDto.getPlace()))
                 .collect(Collectors.toList());
     }
 }
