@@ -2,20 +2,20 @@ package org.study.commands.adminCommands;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.Command;
 import org.study.facade.MovieFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 import org.study.utils.StringParser;
 
-public class AddNewMovie implements Command {
-    private static final Logger LOG = Logger.getLogger(AddNewMovie.class);
+public class AddNewMovieCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(AddNewMovieCommand.class);
 
     private MovieFacade movieFacade;
-    private StringParser string_parser;
+    private StringParser stringParser;
 
-    public AddNewMovie() {
+    public AddNewMovieCommand() {
         this.movieFacade = FacadeFactory.getInstance().getMovieFacade();
-        this.string_parser = StringParser.getInstance();
+        this.stringParser = StringParser.getInstance();
     }
 
     /**
@@ -23,28 +23,27 @@ public class AddNewMovie implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String movieName = request.getParameter("name");
-        String movieGenre = request.getParameter("movie.genre");
-        int movieDuration = Integer.parseInt(request.getParameter("duration"));
-        int ageLimit = Integer.parseInt(request.getParameter("age"));
-        String movieDescription = request.getParameter("description");
-
+        String movieName = request.getParameter(ParametersNames.MOVIE_NAME);
+        String movieGenre = request.getParameter(ParametersNames.MOVIE_GENRE);
+        int movieDuration = Integer.parseInt(request.getParameter(ParametersNames.DURATION));
+        int ageLimit = Integer.parseInt(request.getParameter(ParametersNames.AGE));
+        String movieDescription = request.getParameter(ParametersNames.DESCRIPTION);
         if (checkParameters(movieName, movieDescription, movieDuration, ageLimit)) {
             movieFacade.createNewMovie(movieName, movieGenre, movieDuration, ageLimit, movieDescription);
             LOG.info("Movie with define parameters was added");
             return "pages/admin/admin_movieadded.jsp";
         } else
-            return "pages/errors/401.jsp";
+            return "pages/401.jsp";
     }
 
     private boolean checkParameters(String movieName, String movieDescription, int movieDuration, int ageLimit) {
-        boolean name = string_parser.checkMovieNameDescription(movieName);
+        boolean name = stringParser.checkMovieNameDescription(movieName);
         LOG.info("Movie name checked is " + name);
-        boolean description = string_parser.checkMovieNameDescription(movieDescription);
+        boolean description = stringParser.checkMovieNameDescription(movieDescription);
         LOG.info("Movie dutarion checked is " + description);
-        boolean duration = string_parser.checkMovieDuration(String.valueOf(movieDuration));
+        boolean duration = stringParser.checkMovieDuration(String.valueOf(movieDuration));
         LOG.info("Movie name is  checked" + duration);
-        boolean age = string_parser.checkMovieAge(String.valueOf(ageLimit));
+        boolean age = stringParser.checkMovieAge(String.valueOf(ageLimit));
         LOG.info("Movie name is checked" + age);
         return name && description && duration && age;
     }

@@ -7,23 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.RegisteredUserDto;
 import org.study.dto.SessionScheduleDto;
-import org.study.commands.Command;
-import org.study.facade.MovieFacade;
 import org.study.facade.SessionScheduleFacade;
 import org.study.facade.TicketFacade;
 import org.study.facade.UserFacade;
 import org.study.factories.FacadeFactory;
-import org.study.models.Movie;
-import org.study.models.Ticket;
+import org.study.utils.ParametersNames;
 
-public class CancelMovie implements Command {
-    private static final Logger LOG = Logger.getLogger(AddNewMovie.class);
+public class CancelMovieCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(AddNewMovieCommand.class);
+    public static final String CLIENTS = "clients";
 
     private SessionScheduleFacade sessionScheduleFacade;
     private UserFacade userFacade;
     private TicketFacade ticketFacade;
 
-    public CancelMovie() {
+    public CancelMovieCommand() {
         this.sessionScheduleFacade = FacadeFactory.getInstance().getSessionScheduleFacade();
         this.userFacade = FacadeFactory.getInstance().getUserFacade();
         this.ticketFacade = FacadeFactory.getInstance().getTicketFacade();
@@ -36,9 +34,9 @@ public class CancelMovie implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String idParameter = request.getParameter("movie_id");
+        String idParameter = request.getParameter(ParametersNames.MOVIE_ID);
         if (Objects.isNull(idParameter)) {
-            return "jsp/404.jsp";
+            return "pages/404.jsp";
         }
         int movieId = Integer.parseInt(idParameter);
 
@@ -48,8 +46,8 @@ public class CancelMovie implements Command {
         List<RegisteredUserDto> userDTOList = userFacade.createUserListWithCancelledSchedule
                 (getSessionScheduleId(cancelledScheduleList));
         LOG.info("RegisteredUserDTO list for deleted tickets is created");
-        request.setAttribute("schedules", cancelledScheduleList);
-        request.setAttribute("clients", userDTOList);
+        request.setAttribute(ParametersNames.SCHEDULES, cancelledScheduleList);
+        request.setAttribute(ParametersNames.CLIENTS, userDTOList);
 
         ticketFacade.deleteTicketBySessionScheduleID((getSessionScheduleId(cancelledScheduleList)));
 

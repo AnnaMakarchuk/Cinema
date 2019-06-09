@@ -7,13 +7,14 @@ import org.study.factories.FacadeFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.study.utils.ParametersNames;
 
-public class MainPageView implements Command {
-    private static final Logger LOG = Logger.getLogger(MainPageView.class);
+public class MainPageViewCommand implements Command {
+    private static final Logger LOG = Logger.getLogger(MainPageViewCommand.class);
 
     private MovieFacade movieFacade;
 
-    public MainPageView() {
+    public MainPageViewCommand() {
         this.movieFacade = FacadeFactory.getInstance().getMovieFacade();
     }
 
@@ -24,7 +25,15 @@ public class MainPageView implements Command {
     public String execute(HttpServletRequest request) {
         List<MovieDto> movieDtoList = movieFacade.getAllMovies(true);
         LOG.info("List MovieDTO for main page was obtained");
-        request.setAttribute("movies", movieDtoList);
+        request.setAttribute(ParametersNames.MOVIES, movieDtoList);
         return "pages/homepage.jsp";
+    }
+
+    /**
+     * this method always return true for indicated command. This pages is in access for any unregistered user
+     */
+    @Override
+    public boolean checkPermissions(HttpServletRequest request) {
+        return true;
     }
 }

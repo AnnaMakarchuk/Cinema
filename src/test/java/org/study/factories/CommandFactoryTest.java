@@ -12,28 +12,28 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.study.commands.Command;
 import org.study.commands.LogoutCommand;
 import org.study.commands.LoginCommand;
-import org.study.commands.MainPageView;
+import org.study.commands.MainPageViewCommand;
 import org.study.commands.RegistrationUser;
-import org.study.commands.ViewHallScheme;
-import org.study.commands.ViewSchedulePage;
-import org.study.commands.adminCommands.AddNewMovie;
-import org.study.commands.adminCommands.CancelMovie;
-import org.study.commands.adminCommands.ChangeSchedule;
-import org.study.commands.adminCommands.UpdateAdministrator;
-import org.study.commands.adminCommands.ViewAdminCabinet;
-import org.study.commands.adminCommands.ViewAdminPage;
-import org.study.commands.adminCommands.ViewAvailableTickets;
-import org.study.commands.adminCommands.ViewCancelledMovie;
-import org.study.commands.adminCommands.ViewCancelledSchedule;
-import org.study.commands.adminCommands.ViewPageAddNewMovie;
+import org.study.commands.ViewHallSchemeCommand;
+import org.study.commands.ViewSchedulePageCommand;
+import org.study.commands.adminCommands.AddNewMovieCommand;
+import org.study.commands.adminCommands.CancelMovieCommand;
+import org.study.commands.adminCommands.ChangeScheduleCommand;
+import org.study.commands.adminCommands.UpdateAdministratorCommand;
+import org.study.commands.adminCommands.ViewAdminCabinetCommand;
+import org.study.commands.adminCommands.ViewAdminPageCommand;
+import org.study.commands.adminCommands.ViewAvailableTicketsCommand;
+import org.study.commands.adminCommands.ViewCancelledMovieCommand;
+import org.study.commands.adminCommands.ViewCancelledScheduleCommand;
+import org.study.commands.adminCommands.ViewPageAddNewMovieCommand;
 import org.study.commands.adminCommands.ViewPageWithMovies;
 import org.study.commands.adminCommands.ViewPossibleAdminActions;
-import org.study.commands.clientCommands.ActionWithTicket;
+import org.study.commands.clientCommands.ActionWithTicketCommand;
 import org.study.commands.clientCommands.BuyTicketsNotification;
-import org.study.commands.clientCommands.DeleteClient;
-import org.study.commands.clientCommands.DeleteUserTicket;
-import org.study.commands.clientCommands.UpdateClient;
-import org.study.commands.clientCommands.ViewClientCabinet;
+import org.study.commands.clientCommands.DeleteClientCommand;
+import org.study.commands.clientCommands.DeleteUserTicketCommand;
+import org.study.commands.clientCommands.UpdateClientCommand;
+import org.study.commands.clientCommands.ViewClientCabinetCommand;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommandFactoryTest {
@@ -48,25 +48,28 @@ public class CommandFactoryTest {
         when(request.getContextPath()).thenReturn("/cinema");
     }
 
+
+
+
     @Test
     public void shouldCallMainPageView() {
         when(request.getRequestURI()).thenReturn("/cinema/");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(MainPageView.class));
+        assertThat(command, instanceOf(MainPageViewCommand.class));
     }
 
     @Test
     public void shouldCallViewSchedulePage() {
         when(request.getRequestURI()).thenReturn("/cinema/schedule");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewSchedulePage.class));
+        assertThat(command, instanceOf(ViewSchedulePageCommand.class));
     }
 
     @Test
     public void shouldCallViewHallScheme() {
         when(request.getRequestURI()).thenReturn("/cinema/hallscheme");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewHallScheme.class));
+        assertThat(command, instanceOf(ViewHallSchemeCommand.class));
     }
 
     @Test
@@ -94,14 +97,14 @@ public class CommandFactoryTest {
     public void shouldCallViewAdminPage() {
         when(request.getRequestURI()).thenReturn("/cinema/login/admin");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewAdminPage.class));
+        assertThat(command, instanceOf(ViewAdminPageCommand.class));
     }
 
     @Test
     public void shouldCallViewAdminCabinet() {
         when(request.getRequestURI()).thenReturn("/cinema/admincabinet");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewAdminCabinet.class));
+        assertThat(command, instanceOf(ViewAdminCabinetCommand.class));
     }
 
     @Test
@@ -115,63 +118,63 @@ public class CommandFactoryTest {
     public void shouldCallUpdateAdministrator() {
         when(request.getRequestURI()).thenReturn("/cinema/adminupdate");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(UpdateAdministrator.class));
+        assertThat(command, instanceOf(UpdateAdministratorCommand.class));
     }
 
     @Test
     public void shouldCallViewPageAddNewMovie() {
-        when(request.getRequestURI()).thenReturn("/cinema/adminaddmovie");
+        when(request.getRequestURI()).thenReturn("/cinema/adminmovielist");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewPageAddNewMovie.class));
+        assertThat(command, instanceOf(ViewPageAddNewMovieCommand.class));
     }
 
     @Test
     public void shouldCallAddNewMovie() {
-        when(request.getRequestURI()).thenReturn("/cinema/addmovie");
+        when(request.getRequestURI()).thenReturn("/cinema/adminaddmovie");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(AddNewMovie.class));
+        assertThat(command, instanceOf(AddNewMovieCommand.class));
     }
 
     @Test
     public void shouldCallViewPageCancelMovie() {
         when(request.getRequestURI()).thenReturn("/cinema/admincancelmovie");
         Command command = commandFactory.createCommand(request);
+        assertThat(command, instanceOf(CancelMovieCommand.class));
+    }
+
+    @Test
+    public void shouldCallViewPageWithMovie() {
+        when(request.getRequestURI()).thenReturn("/cinema/adminmovielistcancel");
+        Command command = commandFactory.createCommand(request);
         assertThat(command, instanceOf(ViewPageWithMovies.class));
     }
 
     @Test
-    public void shouldCallCancelMovie() {
-        when(request.getRequestURI()).thenReturn("/cinema/cancelMovie");
+    public void shouldCallChangeScheduleCommand() {
+        when(request.getRequestURI()).thenReturn("/cinema/changeschedule");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(CancelMovie.class));
+        assertThat(command, instanceOf(ChangeScheduleCommand.class));
     }
 
     @Test
     public void shouldCallViewAvailableTickets() {
         when(request.getRequestURI()).thenReturn("/cinema/adminviewtickets");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewAvailableTickets.class));
+        assertThat(command, instanceOf(ViewAvailableTicketsCommand.class));
     }
 
     @Test
     public void shouldCallViewCancelledSchedule() {
         when(request.getRequestURI()).thenReturn("/cinema/adminnonactiveschedule");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewCancelledSchedule.class));
-    }
-
-    @Test
-    public void shouldCallChangeSchedule() {
-        when(request.getRequestURI()).thenReturn("/cinema/changeSchedule");
-        Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ChangeSchedule.class));
+        assertThat(command, instanceOf(ViewCancelledScheduleCommand.class));
     }
 
     @Test
     public void shouldCallViewCancelledMovies() {
         when(request.getRequestURI()).thenReturn("/cinema/adminnonactivemovies");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewCancelledMovie.class));
+        assertThat(command, instanceOf(ViewCancelledMovieCommand.class));
     }
 
 
@@ -179,35 +182,35 @@ public class CommandFactoryTest {
     public void shouldCallViewClientCabinet() {
         when(request.getRequestURI()).thenReturn("/cinema/cabinet");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ViewClientCabinet.class));
+        assertThat(command, instanceOf(ViewClientCabinetCommand.class));
     }
 
     @Test
     public void shouldCallUpdateClient() {
-        when(request.getRequestURI()).thenReturn("/cinema/updateIsActive");
+        when(request.getRequestURI()).thenReturn("/cinema/update");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(UpdateClient.class));
+        assertThat(command, instanceOf(UpdateClientCommand.class));
     }
 
     @Test
     public void shouldCallDeleteClient() {
         when(request.getRequestURI()).thenReturn("/cinema/deleteaccount");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(DeleteClient.class));
+        assertThat(command, instanceOf(DeleteClientCommand.class));
     }
 
     @Test
     public void shouldCallActionWithTicket() {
         when(request.getRequestURI()).thenReturn("/cinema/tickets");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(ActionWithTicket.class));
+        assertThat(command, instanceOf(ActionWithTicketCommand.class));
     }
 
     @Test
     public void shouldCallDeleteUserTicket() {
-        when(request.getRequestURI()).thenReturn("/cinema/deleteTicket");
+        when(request.getRequestURI()).thenReturn("/cinema/deleteticket");
         Command command = commandFactory.createCommand(request);
-        assertThat(command, instanceOf(DeleteUserTicket.class));
+        assertThat(command, instanceOf(DeleteUserTicketCommand.class));
     }
 
     @Test

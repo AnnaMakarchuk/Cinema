@@ -8,14 +8,15 @@ import org.study.dto.SessionScheduleDto;
 import org.study.facade.HallFacade;
 import org.study.facade.SessionScheduleFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 
-public class ViewHallScheme implements Command {
-    private static final Logger LOG = Logger.getLogger(ViewHallScheme.class);
+public class ViewHallSchemeCommand implements Command {
+    private static final Logger LOG = Logger.getLogger(ViewHallSchemeCommand.class);
 
     private SessionScheduleFacade sessionScheduleFacade;
     private HallFacade hallFacade;
 
-    public ViewHallScheme() {
+    public ViewHallSchemeCommand() {
         this.sessionScheduleFacade = FacadeFactory.getInstance().getSessionScheduleFacade();
         this.hallFacade = FacadeFactory.getInstance().getHallFacade();
     }
@@ -25,20 +26,28 @@ public class ViewHallScheme implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String idParameter = request.getParameter("schedule_id");
+        String idParameter = request.getParameter(ParametersNames.SCHEDULE_ID);
         if (Objects.isNull(idParameter)) {
-            return "jsp/404.jsp";
+            return "pages/404.jsp";
         }
         int scheduleId = Integer.parseInt(idParameter);
 
         SessionScheduleDto sessionScheduleDto = sessionScheduleFacade.getScheduleById(scheduleId);
         LOG.info("Schedule for scheme was getUserById");
-        request.setAttribute("schedule", sessionScheduleDto);
+        request.setAttribute(ParametersNames.SCHEDULE, sessionScheduleDto);
 
         HallDto hallDto = hallFacade.getHallDataWithPriceAndOccuipedPlaces(scheduleId);
         LOG.info("Hall scheme data was getUserById");
-        request.setAttribute("hall", hallDto);
+        request.setAttribute(ParametersNames.HALL, hallDto);
 
         return "pages/hall_scheme.jsp";
+    }
+
+    /**
+     * this method always return true for indicated command. This pages is in access for any unregistered user
+     */
+    @Override
+    public boolean checkPermissions(HttpServletRequest request) {
+        return true;
     }
 }

@@ -4,11 +4,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.MovieDto;
-import org.study.commands.Command;
 import org.study.facade.MovieFacade;
 import org.study.factories.FacadeFactory;
 
-public class ViewPageWithMovies implements Command{
+public class ViewPageWithMovies extends AbstractAdminCommand {
     private static final Logger LOG = Logger.getLogger(ViewPageWithMovies.class);
 
     private MovieFacade movieFacade;

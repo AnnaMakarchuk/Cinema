@@ -1,21 +1,20 @@
 package org.study.commands.adminCommands;
 
-import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.AdministratorDto;
-import org.study.commands.Command;
 import org.study.facade.UserFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 import org.study.utils.StringParser;
 
-public class UpdateAdministrator implements Command {
-    private static final Logger LOG = Logger.getLogger(UpdateAdministrator.class);
+public class UpdateAdministratorCommand extends AbstractAdminCommand {
+    private static final Logger LOG = Logger.getLogger(UpdateAdministratorCommand.class);
 
     private UserFacade userFacade;
     private StringParser stringParser;
 
-    public UpdateAdministrator() {
+    public UpdateAdministratorCommand() {
         this.userFacade = FacadeFactory.getInstance().getUserFacade();
         this.stringParser = StringParser.getInstance();
     }
@@ -25,21 +24,17 @@ public class UpdateAdministrator implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String adminLogin = request.getParameter("login");
-        String adminPassword = request.getParameter("password");
-        AdministratorDto registeredUserDTO = (AdministratorDto) request.getSession().getAttribute("admin");
-        if (Objects.isNull(registeredUserDTO)) {
-            return "jsp/404.jsp";
-        }
+        String adminLogin = request.getParameter(ParametersNames.LOGIN);
+        String adminPassword = request.getParameter(ParametersNames.PASSWORD);
+        AdministratorDto registeredUserDTO = (AdministratorDto) request.getSession().getAttribute(ParametersNames.ADMIN);
         int adminId = registeredUserDTO.getAdministratorId();
-
         if (checkParameters(adminLogin, adminPassword)) {
-            AdministratorDto administratorDTO = userFacade.updateAdministrator(adminId, adminLogin, adminPassword);
+            AdministratorDto administratorDto = userFacade.updateAdministrator(adminId, adminLogin, adminPassword);
             LOG.info("User with define parameters was updated");
-            request.getSession().setAttribute("admin", administratorDTO);
+            request.getSession().setAttribute("admin", administratorDto);
             return "pages/admin/admin_account_update.jsp";
         } else
-            return "pages/errors/401.jsp";
+            return "pages/401.jsp";
     }
 
     private boolean checkParameters(String adminLogin, String adminPassword) {

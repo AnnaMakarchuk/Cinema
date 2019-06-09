@@ -1,21 +1,15 @@
 package org.study.commands.clientCommands;
 
 import java.io.IOException;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.RegisteredUserDto;
-import org.study.dto.TicketDto;
-import org.study.commands.Command;
 import org.study.facade.TicketFacade;
 import org.study.factories.FacadeFactory;
-import org.study.models.enums.WeekDay;
 
-public class BuyTicketsNotification implements Command {
+public class BuyTicketsNotification extends AbstractClientCommand {
     private static final Logger LOG = Logger.getLogger(BuyTicketsNotification.class);
 
     private TicketFacade ticketFacade;

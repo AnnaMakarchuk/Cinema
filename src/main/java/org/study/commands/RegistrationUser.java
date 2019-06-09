@@ -2,13 +2,14 @@ package org.study.commands;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.study.commands.adminCommands.UpdateAdministrator;
+import org.study.commands.adminCommands.UpdateAdministratorCommand;
 import org.study.facade.UserFacade;
 import org.study.factories.FacadeFactory;
+import org.study.utils.ParametersNames;
 import org.study.utils.StringParser;
 
 public class RegistrationUser implements Command {
-    private static final Logger LOG = Logger.getLogger(UpdateAdministrator.class);
+    private static final Logger LOG = Logger.getLogger(UpdateAdministratorCommand.class);
 
     private UserFacade userFacade;
     private StringParser stringParser;
@@ -23,18 +24,18 @@ public class RegistrationUser implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        String userName = request.getParameter("name");
-        String userSurname = request.getParameter("surname");
-        String gender = request.getParameter("gender");
-        String userLogin = request.getParameter("login");
-        String userEMailAddress = request.getParameter("email");
-        String userPassword = request.getParameter("password");
+        String userName = request.getParameter(ParametersNames.NAME);
+        String userSurname = request.getParameter(ParametersNames.SURNAME);
+        String gender = request.getParameter(ParametersNames.GENDER);
+        String userLogin = request.getParameter(ParametersNames.LOGIN);
+        String userEMailAddress = request.getParameter(ParametersNames.EMAIL);
+        String userPassword = request.getParameter(ParametersNames.PASSWORD);
         if (checkParameters(userName, userSurname, userLogin, userEMailAddress, userPassword)) {
             userFacade.createNewUser(userName, userSurname, gender, userLogin, userEMailAddress, userPassword);
             LOG.info("Add new user was successful");
             return "pages/registration.jsp";
         }
-        return "pages/errors/401.jsp";
+        return "pages/401.jsp";
     }
 
     private boolean checkParameters(String userName, String userSurname, String userLogin,
@@ -50,5 +51,13 @@ public class RegistrationUser implements Command {
         boolean email = stringParser.checkEMail(userEMailAddress);
         LOG.info("Email checked is " + email);
         return name && surname && login && password && email;
+    }
+
+    /**
+     * this method always return true for indicated command. This pages is in access for any unregistered user
+     */
+    @Override
+    public boolean checkPermissions(HttpServletRequest request) {
+        return true;
     }
 }
