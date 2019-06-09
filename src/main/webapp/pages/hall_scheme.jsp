@@ -6,7 +6,7 @@
 <fmt:setLocale value="${locale}" />
 <fmt:setBundle basename="textBundle"/>
 
-<html lang="${locale}>
+<html lang="${locale}">
 <head>
     <meta charset="UTF-8">
     <title>Cinema</title>
@@ -123,7 +123,7 @@
 
 <div class="w3-container w3-right">
         <div class="w3-bar w3-padding-medium w3-padding-24">
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large" onclick="submitTickets('boughttickets')">
+            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large" type="submit" onclick="submitTickets('boughttickets')">
             <fmt:message key="buy.selected.tickets"/>
             </button>
     </div>
@@ -149,17 +149,23 @@
 </style>
 
 <script>
-    occupied = ["1-1","4-5"]
+
+    var occupied = JSON.parse('${occupiedPlaces}');
 
     document.addEventListener('DOMContentLoaded', changePlaces());
 
     function changePlaces() {
-        occupied.forEach(function(item, arr) {
-            var btn = document.getElementById(item);
+        Object.keys(occupied).forEach(function(key) {
+            var tmp = occupied[key];
+            var btn = document.getElementById(tmp.row+"-"+tmp.place);
             if (btn != NaN) {
-                            btn.disabled = true;
-                        }
+                console.log(tmp.row+"-"+tmp.place);
+                console.log(btn);
+
+                btn.disabled = true;
+            }
         });
+
     }
 
     places = [];
@@ -170,9 +176,9 @@
         _this.style.backgroundColor = color_one;
         if(bgcolor == _this.style.backgroundColor) {
             _this.style.backgroundColor = "#f1f1f1";
-            places.splice(places.indexOf(row + "-" + place), 1);
+            places.splice({"row": row, "place": place}, 1);
         } else {
-            places.push(row + "-" + place);
+            places.push({"row": row, "place": place});
         }
     }
 
@@ -183,7 +189,11 @@
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({places}));
+            var body = new Object();
+            body["scheduleId"]="${schedule.scheduleId}";
+            body["places"]=Object.values(places);
+
+            xhr.send(JSON.stringify(body));
         }
     }
 

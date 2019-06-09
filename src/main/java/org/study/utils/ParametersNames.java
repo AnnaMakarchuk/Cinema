@@ -16,7 +16,6 @@ public class ParametersNames {
 
     public static final String CLIENTS = "clients";
 
-
     public static final String MOVIES = "movies";
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "name";
@@ -39,9 +38,5 @@ public class ParametersNames {
     public static final String TICKETS = "tickets";
     public static final String TICKET_ID = "ticket_id";
 
-
-
-
-
-
+    public static final String OCCUPIED_PLACES = "occupiedPlaces";
 }

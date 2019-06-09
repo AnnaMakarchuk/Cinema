@@ -24,7 +24,7 @@ public class SessionScheduleDaoImpl implements SessionScheduleDao {
             "m.duration, m.ageLimit, m.description, g.genre FROM session_schedule as s " +
             "JOIN hall as h ON s.hall_id = h.id " +
             "JOIN movie as m ON s.movie_id = m.id JOIN movie_genre as g ON m.genre_id = g.id " +
-            "WHERE s.isActive = 1";
+            "WHERE s.isActive = 1 AND s.id = (?)";
     private static final String SESSION_SQL_GET_ALL_WEEKDAY = "SELECT s.id as id_schedule, s.day_of_week, s.time, " +
             "h.id as id_hall, h.name as name_hall, h.max_row, h.places_in_row, m.id as id_movie, m.name as name_movie," +
             "m.duration, m.ageLimit, m.description, g.genre FROM session_schedule as s " +

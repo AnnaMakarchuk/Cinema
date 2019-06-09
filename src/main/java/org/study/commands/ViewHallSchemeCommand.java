@@ -1,5 +1,7 @@
 package org.study.commands;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
@@ -40,6 +42,12 @@ public class ViewHallSchemeCommand implements Command {
         LOG.info("Hall scheme data was getUserById");
         request.setAttribute(ParametersNames.HALL, hallDto);
 
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            request.setAttribute(ParametersNames.OCCUPIED_PLACES, mapper.writeValueAsString(hallDto.getOccupiedPlaces()));
+        } catch (JsonProcessingException e) {
+            LOG.error("Json exception: ", e);
+        }
         return "pages/hall_scheme.jsp";
     }
 

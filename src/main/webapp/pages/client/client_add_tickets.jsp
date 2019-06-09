@@ -55,31 +55,6 @@
     </footer>
 </div>
 <div><p></p></div>
-<div class="w3-container w3-text-teal">
-<form class="w3-container w3-padding" method="POST" action="/cinema/deleteTicket">
-    <table class="w3-table w3-small w3-bordered  ">
-        <tr>
-            <th><fmt:message key="movie.name"/></th>
-            <th><fmt:message key="week.day"/></th>
-            <th><fmt:message key="movie.time"/></th>
-            <th><fmt:message key="hall.row"/></th>
-            <th><fmt:message key="hall.place"/></th>
-            <th><fmt:message key="price"/></th>
-        </tr>
-        <tr>
-            <c:forEach var="ticket" items="${tickets}" varStatus = "loopStatus">
-                <td><br><c:out value="${ticket.movieName}"/></td>
-                <td><br><c:out value="${ticket.weekDay}"/></td>
-                <td><br><c:out value="${ticket.time}"/></td>
-                <td><br><c:out value="${ticket.row}"/></td>
-                <td><br><c:out value="${ticket.placeNumber}"/></td>
-                <td><br><c:out value="${ticket.ticketPrice}"/></td>
-            </tr>
-            </c:forEach>
-        </tr>
-    </table>
-</form>
 
-</div>
 </body>
 </html>
