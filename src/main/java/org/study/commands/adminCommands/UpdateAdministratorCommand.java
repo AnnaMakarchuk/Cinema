@@ -1,5 +1,6 @@
 package org.study.commands.adminCommands;
 
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.dto.AdministratorDto;
@@ -28,13 +29,16 @@ public class UpdateAdministratorCommand extends AbstractAdminCommand {
         String adminPassword = request.getParameter(ParametersNames.PASSWORD);
         AdministratorDto registeredUserDTO = (AdministratorDto) request.getSession().getAttribute(ParametersNames.ADMIN);
         int adminId = registeredUserDTO.getAdministratorId();
-        if (checkParameters(adminLogin, adminPassword)) {
+        if (Objects.isNull(adminLogin) || Objects.isNull(adminPassword)) {
+            return "pages/admin/admin_account_update.jsp";
+        } else if (checkParameters(adminLogin, adminPassword)) {
             AdministratorDto administratorDto = userFacade.updateAdministrator(adminId, adminLogin, adminPassword);
             LOG.info("User with define parameters was updated");
             request.getSession().setAttribute("admin", administratorDto);
             return "pages/admin/admin_account_update.jsp";
-        } else
+        } else {
             return "pages/401.jsp";
+        }
     }
 
     private boolean checkParameters(String adminLogin, String adminPassword) {

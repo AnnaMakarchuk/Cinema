@@ -40,10 +40,10 @@
 <div class="w3-container w3-left-align">
     <div class="w3-bar w3-padding-large w3-padding-24">
 
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left" onclick="location.href='/cinema/cabinet'">
+            <button class="w3-btn w3-teal w3-round-large w3-left" onclick="location.href='/cinema/cabinet'">
                             <fmt:message key="back.cabinet"/>
             </button>
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-right" onclick="location.href='/cinema/logout'">
+            <button class="w3-btn  w3-teal w3-border w3-border-redl w3-round-large w3-right" onclick="location.href='/cinema/logout'">
                 <fmt:message key="logout.button"/>
             </button>
      </div>

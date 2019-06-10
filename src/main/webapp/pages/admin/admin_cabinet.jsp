@@ -35,7 +35,7 @@
                   <fmt:message key="admin.actions.button"/>
             </button>
 
-            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-white w3-border w3-border-teal w3-round-large  w3-right-align">
+            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-teal w3-border w3-border-teal w3-round-large  w3-right-align">
                  <fmt:message key="adminupdate.button"/></button>
                        <div id="id01" class="w3-modal">
                            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
@@ -57,7 +57,7 @@
                            </div>
                        </div>
 
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-right-align" onclick="location.href='/cinema/logout'">
+            <button class="w3-btn w3-teal w3-border w3-border-red w3-round-large w3-right-align" onclick="location.href='/cinema/logout'">
                 <fmt:message key="logout.button"/>
             </button>
 </div>

@@ -78,9 +78,8 @@
                                             <input type="radio" name="movie_id" value="${movie.movieId}"><c:out value="${movie.movieName}"/><br>
                                         </c:forEach>
                                 <p></p>
-
-                                <button class="w3-button w3-block w3-teal w3-round-large w3-section w3-padding"
-                                button onclick="location.href='/cinema/changeschedule?schedule_id=${schedule.scheduleId}'">
+                                <input type="hidden" name="schedule_id" value="${schedule.scheduleId}"/>
+                                <button class="w3-button w3-block w3-teal w3-round-large w3-section w3-padding">
                                     <fmt:message key="update.schedule.button"/></button>
                             </div>
                         </form>

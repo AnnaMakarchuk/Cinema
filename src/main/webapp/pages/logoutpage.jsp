@@ -42,7 +42,7 @@
     </div>
 
     <p> <div class="w3-bar w3-padding-large w3-padding-24">
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left-align" onclick="location.href='/cinema'">
+            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left-align" onclick="location.href='/cinema?locale=${locale}'">
                 <fmt:message key="on.main.page"/>
             </button>
         </div>

@@ -23,9 +23,11 @@ public class FrontControllerServlet extends HttpServlet {
             String path = command.execute(request);
             LOG.info("Get method. Path is " + path);
             request.getRequestDispatcher(path).forward(request, response);
+        } else {
+            LOG.info("Access is denied");
+            request.getRequestDispatcher("pages/403.jsp").forward(request, response);
         }
-        LOG.info("Access is denied");
-        request.getRequestDispatcher("pages/403.jsp");
+
     }
 
     @Override
@@ -37,9 +39,10 @@ public class FrontControllerServlet extends HttpServlet {
             String path = command.execute(request);
             LOG.info("Post method. Path is " + path);
             request.getRequestDispatcher(path).forward(request, response);
+        } else {
+            LOG.info("Access is denied");
+            request.getRequestDispatcher("pages/403.jsp").forward(request, response);
         }
-        LOG.info("Access is denied");
-        request.getRequestDispatcher("pages/403.jsp");
     }
 
     private boolean checkPermissions(Command command, HttpServletRequest request) {
