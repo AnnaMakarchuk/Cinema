@@ -31,12 +31,36 @@
 
 <div class="w3-container w3-right-align">
     <p> <div class="w3-bar w3-padding-large w3-padding-24">
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-left" onclick="location.href='/cinema/schedule'">
+            <button class="w3-btn w3-border w3-teal w3-round-large w3-left" onclick="location.href='/cinema/schedule'">
                 <fmt:message key="schedule"/>
             </button>
 
-            <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-teal w3-round-large w3-right-align">
-                 <fmt:message key="login.button"/></button>
+            <c:choose>
+                <c:when test="${user == null}">
+                        <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-teal w3-round-large w3-right-align">
+                            <fmt:message key="login.button"/>
+                        </button>
+                        <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-teal w3-round-large w3-right-align">
+                                <fmt:message key="register.button"/>
+                           </button>
+                </c:when>
+                <c:otherwise>
+                        <button class="w3-btn w3-border w3-teal w3-round-large" onclick="submitTickets('boughttickets')">
+                            <fmt:message key="buy.selected.tickets"/>
+                        </button>
+                
+                        <button class="w3-btn w3-border w3-teal w3-round-large w3-right-align" onclick="location.href='/cinema/cabinet'">
+                            <fmt:message key="back.cabinet"/>
+                        </button>
+                        <button class="w3-btn w3-border w3-teal w3-round-large w3-right-align w3-border-red" onclick="location.href='/cinema/logout'">
+                            <fmt:message key="logout.button"/>
+                        </button>
+                </c:otherwise>
+            </c:choose>
+           
+
+
+
                  <div id="id02" class="w3-modal">
                     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
                         <div class="w3-center"><br>
@@ -57,10 +81,6 @@
                         </form>
                     </div>
                  </div>
-
-            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-teal w3-round-large w3-right-align">
-                 <fmt:message key="register.button"/>
-            </button>
                  <div id="id01" class="w3-modal">
                     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
                         <div class="w3-center"><br>
@@ -121,13 +141,6 @@
         </c:forEach>
 </div>
 
-<div class="w3-container w3-right">
-        <div class="w3-bar w3-padding-medium w3-padding-24">
-            <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large" type="submit" onclick="submitTickets('boughttickets')">
-            <fmt:message key="buy.selected.tickets"/>
-            </button>
-    </div>
-
 <style>
     .chair {
         height: 50px;
@@ -159,9 +172,6 @@
             var tmp = occupied[key];
             var btn = document.getElementById(tmp.row+"-"+tmp.place);
             if (btn != NaN) {
-                console.log(tmp.row+"-"+tmp.place);
-                console.log(btn);
-
                 btn.disabled = true;
             }
         });
@@ -174,12 +184,14 @@
         var color_one = "#009688";
         var bgcolor = _this.style.backgroundColor;
         _this.style.backgroundColor = color_one;
+        console.log(places);
         if(bgcolor == _this.style.backgroundColor) {
             _this.style.backgroundColor = "#f1f1f1";
-            places.splice({"row": row, "place": place}, 1);
+            places = places.filter(place => (place["row"] != row && place["place"] != place));
         } else {
             places.push({"row": row, "place": place});
         }
+        console.log(places);
     }
 
     function submitTickets(url) {
@@ -187,13 +199,17 @@
         if (places.length > 0) {
             console.log("sending post");
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", url, true);
+            xhr.open("POST", url);
             xhr.setRequestHeader('Content-Type', 'application/json');
             var body = new Object();
             body["scheduleId"]="${schedule.scheduleId}";
             body["places"]=Object.values(places);
 
             xhr.send(JSON.stringify(body));
+            xhr.onload = function() {
+                confirm("Ticket was bought");
+                window.location.reload();
+            };
         }
     }
 

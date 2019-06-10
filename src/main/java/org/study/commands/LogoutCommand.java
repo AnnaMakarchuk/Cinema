@@ -14,11 +14,9 @@ public class LogoutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-
         String locale = (String) session.getAttribute(ParametersNames.LOCALE);
-        request.setAttribute(ParametersNames.LOCALE, locale);
-
         session.invalidate();
+        request.getSession().setAttribute(ParametersNames.LOCALE, locale);
         LOG.info("Logout from account, session was invalidated");
         return "pages/logoutpage.jsp";
     }

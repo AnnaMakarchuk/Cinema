@@ -40,7 +40,11 @@
 
 <div class="w3-container w3-right-align">
     <div class="w3-bar w3-padding-large w3-padding-24">
-             <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-white w3-border w3-border-teal w3-round-large  w3-right-align">
+
+       <button class="w3-btn w3-teal w3-border w3-round-large w3-left" onclick="location.href='/cinema'">
+                <fmt:message key="on.main.page"/>
+                </button>
+             <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-teal w3-border w3-border-teal w3-round-large  w3-right-align">
                    <fmt:message key="update.button"/></button>
                    <div id="id01" class="w3-modal">
                        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
@@ -63,11 +67,11 @@
                        </div>
              </div>
 
-              <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-right-align" onclick="location.href='/cinema/logout'">
+              <button class="w3-btn w3-teal w3-border w3-border-red w3-round-large w3-right-align" onclick="location.href='/cinema/logout'">
                     <fmt:message key="logout.button"/>
               </button>
 
-              <button class="w3-btn w3-white w3-border w3-border-teal w3-round-large w3-right-align" onclick="location.href='/cinema/deleteaccount'">
+              <button class="w3-btn  w3-teal w3-border w3-border-red w3-round-large w3-right-align" onclick="location.href='/cinema/deleteaccount'">
                                                   <fmt:message key="delete.account"/>
                                                 </button>
       </div>

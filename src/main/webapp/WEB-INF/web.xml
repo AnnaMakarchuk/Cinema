@@ -6,13 +6,6 @@
 
     <display-name>Archetype Created Web Application</display-name>
 
-    <!--<jsp-config>-->
-    <!--<taglib>-->
-    <!--<taglib-uri>/WEB-INF</taglib-uri>-->
-    <!--<taglib-location>/WEB-INF/mytags.tld</taglib-location>-->
-    <!--</taglib>-->
-    <!--</jsp-config>-->
-
     <error-page>
         <!-- Missing login -->
         <error-code>401</error-code>

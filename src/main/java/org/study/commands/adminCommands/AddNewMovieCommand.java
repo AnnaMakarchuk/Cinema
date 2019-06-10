@@ -1,5 +1,6 @@
 package org.study.commands.adminCommands;
 
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.study.facade.MovieFacade;
@@ -28,7 +29,9 @@ public class AddNewMovieCommand extends AbstractAdminCommand {
         int movieDuration = Integer.parseInt(request.getParameter(ParametersNames.DURATION));
         int ageLimit = Integer.parseInt(request.getParameter(ParametersNames.AGE));
         String movieDescription = request.getParameter(ParametersNames.DESCRIPTION);
-        if (checkParameters(movieName, movieDescription, movieDuration, ageLimit)) {
+        if (isNulls(movieName, movieDescription)) {
+            return "pages/client/client_account_update.jsp";
+        } else if (checkParameters(movieName, movieDescription, movieDuration, ageLimit)) {
             movieFacade.createNewMovie(movieName, movieGenre, movieDuration, ageLimit, movieDescription);
             LOG.info("Movie with define parameters was added");
             return "pages/admin/admin_movieadded.jsp";
@@ -46,5 +49,9 @@ public class AddNewMovieCommand extends AbstractAdminCommand {
         boolean age = stringParser.checkMovieAge(String.valueOf(ageLimit));
         LOG.info("Movie name is checked" + age);
         return name && description && duration && age;
+    }
+
+    private boolean isNulls(String movieName, String movieDescription) {
+        return Objects.isNull(movieName) || Objects.isNull(movieDescription);
     }
 }
