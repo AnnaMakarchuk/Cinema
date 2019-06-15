@@ -29,6 +29,9 @@ public class LoginCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String path = " ";
+        if (!Objects.isNull(request.getSession().getAttribute("user"))) {
+            return "pages/client/client_cabinet.jsp";
+        }
         String login = request.getParameter(ParametersNames.LOGIN);
         String password = request.getParameter(ParametersNames.PASSWORD);
         RegisteredUserDto registeredUserDTO = userFacade.getRegisterUser(login, password);

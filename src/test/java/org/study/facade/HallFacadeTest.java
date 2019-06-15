@@ -1,5 +1,6 @@
 package org.study.facade;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.study.dto.HallDto;
+import org.study.dto.PlaceDto;
 import org.study.models.Hall;
+import org.study.models.Place;
 import org.study.services.HallService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +30,7 @@ public class HallFacadeTest {
     @Before
     public void setUp() {
         Hall hall = new Hall(1, "Gold", 5, 3);
+        hall.setOccupiedPlaces(singletonList(new Place(2,3)));
         when(hallService.getHallWithPriceAndPlaces(1)).thenReturn(hall);
     }
 
@@ -42,6 +46,7 @@ public class HallFacadeTest {
         expected.setHallName("Gold");
         expected.setMaxRow(5);
         expected.setMaxPlacesInRow(3);
+        expected.setOccupiedPlaces(singletonList(new PlaceDto(2,3)));
 
         HallDto result = hallFacade.getHallDataWithPriceAndOccuipedPlaces(1);
 

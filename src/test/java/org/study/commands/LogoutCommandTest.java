@@ -35,7 +35,7 @@ public class LogoutCommandTest {
         when(session.getAttribute(LOCALE)).thenReturn(expectedLocale);
 
         String resultPath = logoutCommand.execute(request);
-        verify(request).setAttribute(LOCALE, expectedLocale);
+        verify(session).setAttribute(LOCALE, expectedLocale);
         verify(session).invalidate();
         assertThat(resultPath, equalTo(expectedPath));
     }
